@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IdeaSpark — spark wild ideas</title>
+  <meta name="description" content="IdeaSpark — a tiny engine to spark creative project ideas, business starters, and side-hustles." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#ffb86b;
+      --muted:#9aa4b2;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#071126 0%, #0f1724 60%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+      line-height:1.45;
+    }
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:18px;
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    header{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      color:#07202e;
+      background: linear-gradient(135deg,#ffb86b,#ffd9a6);
+      box-shadow: 0 6px 18px rgba(255,184,107,0.15), 0 1px 0 rgba(255,255,255,0.02) inset;
+      font-size:20px;
+    }
+    h1{font-size:20px; margin:0}
+    h2{margin:6px 0 0 0; font-weight:600; color:var(--accent)}
+    .nav{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .btn{
+      background:var(--glass);
+      border: 1px solid rgba(255,255,255,0.03);
+      padding:10px 14px;
+      border-radius:10px;
+      color:var(--muted);
+      cursor:pointer;
+      font-weight:600;
+    }
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent), #ffd9a6);
+      color:#07202e;
+      border:none;
+      box-shadow: 0 6px 18px rgba(255,184,107,0.12);
+    }
+
+    .content{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:22px;
+      align-items:start;
+    }
+
+    /* Left column */
+    .hero{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:22px;
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .hero h3{font-size:28px; margin:0 0 8px 0}
+    .hero p{margin:0 0 16px 0; color:var(--muted)}
+    .features{
+      display:grid;
+      gap:12px;
+      margin-top:14px;
+    }
+    .feature{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .f-icon{
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      color:#07202e;
+      background:linear-gradient(135deg,#8be9fd,#66d1ff);
+      flex-shrink:0;
+    }
+    .feature h4{margin:0 0 4px 0}
+    .feature p{margin:0; color:var(--muted); font-size:14px}
+
+    /* Right column (idea card) */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      padding:18px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .card .kicker{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+    .kicker small{color:var(--muted)}
+    .idea{
+      min-height:110px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:14px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      font-size:18px;
+      font-weight:600;
+    }
+    .meta{
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .meta .tag{
+      background:rgba(255,255,255,0.03);
+      padding:8px 10px;
+      border-radius:10px;
+      color:var(--muted);
+      font-weight:600;
+      font-size:13px;
+    }
+    .controls{display:flex; gap:8px; align-items:center;}
+    .controls button{padding:10px 12px; border-radius:10px; border:none; cursor:pointer; font-weight:700}
+    .controls .regen{background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03)}
+    .controls .copy{background:var(--glass); color:var(--muted)}
+    .controls .share{background:var(--accent); color:#07202e}
+
+    /* footer */
+    footer{
+      margin-top:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* responsive */
+    @media (max-width:920px){
+      .content{grid-template-columns:1fr}
+      .nav{display:none}
+      .logo{width:48px;height:48px}
+      .brand h1{font-size:18px}
+      header{gap:8px}
+    }
+
+    /* micro animations */
+    .logo, .f-icon { transition: transform .25s ease; }
+    .logo:hover, .f-icon:hover { transform: translateY(-4px); }
+    .btn:active { transform: translateY(1px); }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <div class="brand" aria-hidden="false">
+        <div class="logo" title="IdeaSpark">IS</div>
+        <div>
+          <h1>IdeaSpark</h1>
+          <h2>spark wild ideas ✨</h2>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Main">
+        <button class="btn" onclick="openSection('how')">How it works</button>
+        <a class="btn" href="#ideas" title="Jump to generator">Try generator</a>
+        <button class="btn primary" onclick="window.location='mailto:hello@ideaspark.in?subject=Hello IdeaSpark'">Contact</button>
+      </nav>
+    </header>
+
+    <div class="content">
+      <!-- left: pitch + features -->
+      <section class="hero" aria-labelledby="hero-title">
+        <h3 id="hero-title">Turn a tiny spark into a big idea</h3>
+        <p>IdeaSpark collects fun, practical & quirky idea prompts — perfect for hackathons, school projects, side hustles, or "I'm bored" afternoons.</p>
+
+        <div class="features" aria-hidden="false">
+          <div class="feature">
+            <div class="f-icon">⚡</div>
+            <div>
+              <h4>Quick sparks</h4>
+              <p>Get a ready-to-start idea in one click — small, actionable, and fun.</p>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="f-icon">🎯</div>
+            <div>
+              <h4>Focused categories</h4>
+              <p>From tech to green projects — pick a category that fits your mood or skills.</p>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="f-icon">🚀</div>
+            <div>
+              <h4>Launch checklist</h4>
+              <p>Every idea comes with next steps you can follow to actually build it.</p>
+            </div>
+          </div>
+        </div>
+
+        <hr style="margin:18px 0; border-color:rgba(255,255,255,0.02)">
+
+        <section id="how">
+          <h4 style="margin:0 0 8px 0">How IdeaSpark helps</h4>
+          <p style="margin:0;color:var(--muted)">Click "Generate" for a random idea. Use "More" to get a short 3-step plan. Copy or share an idea instantly.</p>
+        </section>
+      </section>
+
+      <!-- right: idea generator -->
+      <aside class="card" id="ideas" aria-labelledby="generator-title">
+        <div class="kicker">
+          <div>
+            <small id="generator-title">Idea Generator</small>
+            <div style="font-size:12px;color:var(--muted)">Pick a mood & spark something new</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select id="category" aria-label="Category selector" style="padding:8px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);font-weight:600">
+              <option value="random">🎲 Random</option>
+              <option value="tech">💻 Tech</option>
+              <option value="creative">🎨 Creative</option>
+              <option value="social">🤝 Social</option>
+              <option value="green">🌱 Green</option>
+              <option value="business">📈 Business</option>
+              <option value="fun">🎉 Fun</option>
+              <option value="school">🏫 School Project</option>
+            </select>
+            <button class="btn" onclick="generateIdea()">Generate</button>
+          </div>
+        </div>
+
+        <div class="idea" id="ideaText" aria-live="polite">Click <strong>Generate</strong> to spark an idea!</div>
+
+        <div class="meta">
+          <div class="tag" id="ideaCat">Category — Random</div>
+          <div class="controls">
+            <button class="regen" title="Regenerate" onclick="generateIdea()">↺ Regenerate</button>
+            <button class="copy" id="copyBtn" onclick="copyIdea()">Copy</button>
+            <button class="share" id="shareBtn" onclick="shareIdea()">Share</button>
+          </div>
+        </div>
+
+        <div id="miniPlan" style="margin-top:14px;color:var(--muted);font-size:14px;line-height:1.35;"></div>
+      </aside>
+    </div>
+
+    <footer>
+      <div>Made with 💡 — ideaspark.in</div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <small style="color:var(--muted)">Want more? </small>
+        <button class="btn" onclick="moreSteps()">More</button>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Idea database (short, editable)
+    const IDEAS = {
+      tech: [
+        {title:"Tiny habit app that gamifies 1-minute tasks", plan:["Design 1-minute tasks","Track streaks + XP","Share short challenges"]},
+        {title:"Local marketplace for spare parts (neighborhood)", plan:["Map common items","Allow photos & barter offers","Build simple messaging"]},
+        {title:"AR room planner: place furniture with phone camera", plan:["Create drag/drop UI","Basic scale & collision","Share snapshots"]},
+      ],
+      creative: [
+        {title:"Postcard subscription featuring indie illustrators", plan:["Curate 4 artists","Print limited run","Ship monthly box"]},
+        {title:"Emoji story generator: write stories using 8 emojis", plan:["Create emoji prompts","Use template story beats","Share social-ready images"]},
+        {title:"Soundscape album made from city recordings", plan:["Collect sound clips","Edit into tracks","Release as streaming EP"]},
+      ],
+      social: [
+        {title:"Skill-swap nights: people trade 1-hour lessons", plan:["Create event page","Match learners/teachers","Host recurring meetups"]},
+        {title:"Neighborhood skill map (who can fix a bike?)", plan:["Collect volunteer skills","Make searchable map","Promote via community boards"]},
+      ],
+      green: [
+        {title:"Compost co-op with pickup rota", plan:["Sign up homes","Set pickup schedule","Convert to community soil"]},
+        {title:"Plant-a-roof challenge for small shops", plan:["Make simple kit","Run a local contest","Document with before/after photos"]},
+      ],
+      business: [
+        {title:"Micro-subscription snack box for offices", plan:["Source local snacks","Offer 10-person box","Trial with 3 offices"]},
+        {title:"Budget travel planner for weekend microtrips", plan:["Curate 1-day itineraries","Pack transit + food tips","Sell as cheap PDF guides"]},
+      ],
+      fun: [
+        {title:"Mystery dinner kits with themed clues", plan:["Create menu & clues","Box materials","Host events or ship kits"]},
+        {title:"App to generate dares for friends (kind, safe)", plan:["Design dare library","Allow categories","Share results to socials"]},
+      ],
+      school: [
+        {title:"Classroom podcast produced by students", plan:["Choose topic","Teach recording basics","Publish episodes"]},
+        {title:"Science fair kit rental (instruments & sensors)", plan:["Create kits","Set rental terms","Partner with schools"]},
+      ],
+      random: [
+        {title:"Pop-up story bench: strangers add to a public tale", plan:["Place bench with notebook","Encourage passes to write","Collect & publish best stories"]},
+        {title:"Window gallery: rotate local artists in shop windows", plan:["Ask shops to host","Create simple frames","Plan 1-month rotations"]},
+        {title:"Mini-film festival for 3-minute films on a theme", plan:["Announce theme","Collect films","Host neighborhood screening"]},
+      ]
+    };
+
+    // utility: pick random from array
+    function rnd(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    function generateIdea(){
+      const cat = document.getElementById('category').value;
+      const chosenCat = cat === 'random' ? rnd(Object.keys(IDEAS)) : cat;
+      const idea = rnd(IDEAS[chosenCat]);
+      document.getElementById('ideaText').innerHTML = idea.title;
+      document.getElementById('ideaCat').textContent = "Category — " + capitalize(chosenCat);
+      showMiniPlan(idea.plan);
+    }
+
+    function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function copyIdea(){
+      const text = document.getElementById('ideaText').innerText + " — " + document.getElementById('ideaCat').innerText;
+      navigator.clipboard?.writeText(text).then(()=> {
+        const b = document.getElementById('copyBtn');
+        b.textContent = 'Copied ✓';
+        setTimeout(()=> b.textContent = 'Copy',1500);
+      }).catch(()=> alert('Copy failed — select and copy manually.'));
+    }
+
+    function shareIdea(){
+      const idea = document.getElementById('ideaText').innerText;
+      const cat = document.getElementById('ideaCat').innerText;
+      const url = location.href;
+      const body = encodeURIComponent(idea + " (" + cat + ") — from IdeaSpark: " + url);
+      if(navigator.share){
+        navigator.share({title:'Idea from IdeaSpark', text:idea + " — " + cat, url: url});
+      } else {
+        // fallback: open mailto
+        window.location = "mailto:?subject=" + encodeURIComponent("Idea: " + idea) + "&body=" + body;
+      }
+    }
+
+    function showMiniPlan(plan){
+      const el = document.getElementById('miniPlan');
+      if(!plan) { el.innerHTML=''; return; }
+      el.innerHTML = `<strong>3 quick steps:</strong>
+        <ol style="margin:6px 0 0 18px;color:var(--muted)">
+          <li>${plan[0]}</li>
+          <li>${plan[1]}</li>
+          <li>${plan[2]}</li>
+        </ol>`;
+    }
+
+    function moreSteps(){
+      const idea = document.getElementById('ideaText').innerText;
+      if(!idea || idea.includes('Generate')) {
+        alert('Generate an idea first!');
+        return;
+      }
+      // quick expanded checklist (simple local generation)
+      const steps = [
+        'Define the target user and problem in one sentence.',
+        'List the minimum features you need for a working test (MVP).',
+        'Find 3 people to test the idea in a week.'
+      ];
+      document.getElementById('miniPlan').innerHTML = `<strong>Starter checklist:</strong>
+        <ol style="margin:6px 0 0 18px;color:var(--muted)">
+        <li>${steps[0]}</li>
+        <li>${steps[1]}</li>
+        <li>${steps[2]}</li>
+        </ol>`;
+    }
+
+    // seed a first idea on load
+    window.addEventListener('DOMContentLoaded', () => {
+      // slight delay to feel nice
+      setTimeout(()=> generateIdea(), 300);
+    });
+  </script>
+</body>
+</html>
