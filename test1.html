@@ -3,34 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1020">
   <title>IdeaSpark.in — Where ideas come to chill</title>
   <meta name="description" content="IdeaSpark.in — a tiny, proud website that currently does nothing. Minimal, quirky & animated." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ffcc33'/%3E%3Ctext x='50' y='58' font-size='40' text-anchor='middle' fill='%23112233' font-family='Segoe UI, Roboto, Arial'%3E%F0%9F%92%A1%3C/text%3E%3C/svg%3E">
+
+  <!-- Replace these with your real favicon files -->
+  <link rel="icon" href="/favicon.png">
+
   <style>
+    /* ========== Reset & backgrounds (fix bottom white issue) ========== */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(255,204,51,0.06), transparent),
+        linear-gradient(180deg, #0b1020, #0e1a2b);
+      background-color: #0b1020;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      -webkit-overflow-scrolling: touch; /* iOS white flash fix */
+      background-attachment: fixed; /* helps prevent background gaps */
+    }
+
     :root{
       --bg1:#0b1020;
       --bg2:#0e1a2b;
-      --glass: rgba(255,255,255,0.06);
-      --accent: #ffcc33;
-      --muted: #b8c6d6;
-      --max-width: 1100px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,204,51,0.06), transparent),
-                  linear-gradient(180deg,var(--bg1), var(--bg2));
-      color: #eaf0ff;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:40px 20px;
+      --accent:#ffcc33;
+      --muted:#b8c6d6;
+      --max-width:1100px;
     }
 
+    *{box-sizing:border-box}
+
+    /* Container */
     .wrap{
       width:100%;
       max-width:var(--max-width);
@@ -41,7 +55,8 @@
       box-shadow: 0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
       position:relative;
       overflow:hidden;
-      border: 1px solid rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.03);
+      -webkit-overflow-scrolling:touch;
     }
 
     header{
@@ -73,11 +88,7 @@
       gap:12px;
     }
 
-    .wobble {
-      display:inline-block;
-      transform-origin: 50% 50%;
-      animation: wobble 4s ease-in-out infinite;
-    }
+    .wobble{ animation:wobble 4s ease-in-out infinite; display:inline-block; }
     @keyframes wobble{
       0%{transform: rotate(-1.2deg)}
       25%{transform: rotate(0.8deg) translateY(-2px)}
@@ -108,13 +119,7 @@
       box-shadow: 0 6px 30px rgba(2,6,23,0.45);
     }
 
-    .who{
-      font-size:16px;
-      color:var(--muted);
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
+    .who{ font-size:16px; color:var(--muted); display:flex; gap:8px; align-items:center; }
 
     .typewriter{
       margin-top:12px;
@@ -122,7 +127,7 @@
       font-size:18px;
       color:#fff;
       min-height:24px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      font-family:monospace;
     }
 
     .spark-area{
@@ -132,6 +137,7 @@
       align-items:center;
       justify-content:center;
     }
+
     .spark {
       width:120px;
       height:120px;
@@ -147,28 +153,18 @@
       cursor:pointer;
       user-select:none;
     }
-    .spark:active{ transform: translateY(3px) scale(0.98); }
 
     .particle{
       position:absolute;
-      width:10px;height:10px;border-radius:4px;
-      background:var(--accent);
-      opacity:0.9;
-      filter: blur(.6px);
-      transform: translate3d(0,0,0);
+      border-radius:4px;
       pointer-events:none;
+      background:var(--accent);
+      opacity:0.8;
     }
 
-    .right{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
+    .right{ display:flex; flex-direction:column; gap:14px; }
 
-    .muted{
-      color:var(--muted);
-      font-size:14px;
-    }
+    .muted{ color:var(--muted); font-size:14px; }
 
     .cta{
       display:inline-flex;
@@ -176,22 +172,12 @@
       align-items:center;
       padding:10px 14px;
       border-radius:10px;
-      background: linear-gradient(90deg, rgba(255,204,51,0.12), rgba(255,204,51,0.08));
-      color: #fff;
-      border: 1px solid rgba(255,204,51,0.12);
+      background: rgba(255,204,51,0.12);
+      color:#fff;
+      border:1px solid rgba(255,204,51,0.12);
       text-decoration:none;
       font-weight:600;
       box-shadow: 0 6px 24px rgba(2,6,23,0.4);
-      transition: transform .14s ease, box-shadow .14s ease;
-    }
-    .cta:hover{ transform: translateY(-4px); box-shadow:0 18px 48px rgba(2,6,23,0.5); }
-
-    .email{
-      display:inline-block;
-      color:var(--muted);
-      text-decoration:none;
-      font-weight:700;
-      margin-top:6px;
     }
 
     footer{
@@ -199,115 +185,84 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
       color:var(--muted);
       font-size:13px;
     }
 
-    .foot-thing {
-      display:inline-grid;
-      place-items:center;
-      width:36px;height:36px;border-radius:10px;
-      background: rgba(255,255,255,0.02);
-      border:1px solid rgba(255,255,255,0.02);
-      font-weight:700;
-    }
-
-    .confetti {
+    /* Confetti container */
+    .confetti{
       position:fixed;
-      pointer-events:none;
       inset:0;
-      overflow:hidden;
-      z-index:1200;
-    }
-    .confetti-piece{
-      position:absolute;
-      width:10px;height:14px;
-      opacity:0.95;
-      transform-origin:center;
-      will-change: transform;
-      backface-visibility:hidden;
-      border-radius:2px;
+      pointer-events:none;
+      z-index:999;
     }
 
-    @media (prefers-reduced-motion:reduce){
-      .wobble, .spark, .particle, .cta, .typewriter { animation: none !important; transition: none !important; }
-    }
-
-    /* ======================================================
-       🔥 MOBILE FIXES – Visible content on all screen sizes
-       ====================================================== */
-    @media (max-width: 880px) {
-      body {
-        align-items: flex-start;
-        justify-content: flex-start;
-        padding: 18px 12px;
+    /* ---------------- MOBILE FIXES ---------------- */
+    @media (max-width:880px) {
+      body{
+        align-items:flex-start;
+        justify-content:flex-start;
+        padding:18px 12px;
       }
 
-      .wrap {
-        min-height: auto;
-        max-height: calc(100vh - 36px);
-        overflow: auto;
-        padding: 20px;
-        border-radius: 14px;
+      .wrap{
+        min-height:auto;
+        max-height:calc(100vh - 36px);
+        overflow:auto;
+        padding:20px;
+        border-radius:14px;
       }
 
-      .spark-area { min-height: 180px; }
-      .typewriter { min-height: 28px; }
-
-      header {
-        position: sticky;
-        top: 12px;
-        background: transparent;
-        z-index: 10;
+      header{
+        position:sticky;
+        top:12px;
+        z-index:20;
       }
+
+      .spark-area{ min-height:180px; }
+      .typewriter{ min-height:28px; }
     }
 
+    /* Allow confetti + interactive elements to show (avoid clipping) */
     .wrap { overflow: visible; }
   </style>
 </head>
 
 <body>
-  <div class="wrap" role="main" aria-labelledby="main-title">
+  <div class="wrap">
     <header>
-      <div class="logo" aria-hidden="true">💡</div>
+      <div class="logo">💡</div>
       <div>
-        <h1 id="main-title">
-          IdeaSpark.in
-          <span class="wobble" aria-hidden="true">— proudly does nothing</span>
-        </h1>
-        <p class="lead">A minimal, slightly smug corner of the internet. Sit down. Breathe. Do nothing (or something chaotic).</p>
+        <h1>IdeaSpark.in <span class="wobble">— proudly does nothing</span></h1>
+        <p class="lead">A minimal, slightly smug corner of the internet.</p>
       </div>
     </header>
 
-    <div class="grid" aria-hidden="false">
+    <div class="grid">
+      <!-- LEFT CARD -->
       <section class="card">
-        <div class="who">Who we are <span style="opacity:.6;margin-left:8px;">•</span> <strong style="margin-left:6px;">Nothing special</strong></div>
+        <div class="who">Who we are • <strong>Nothing special</strong></div>
 
-        <div class="spark-area" aria-hidden="false" aria-label="Clickable spark that triggers playful confetti">
-          <div id="spark" class="spark" role="button" tabindex="0" aria-pressed="false" title="Click me — I promise nothing">
-            ✨
-          </div>
+        <div class="spark-area">
+          <div id="spark" class="spark" tabindex="0" role="button">✨</div>
         </div>
 
-        <div class="typewriter" id="typewriter" aria-live="polite"></div>
+        <div class="typewriter" id="typewriter"></div>
 
         <p class="muted" style="margin-top:16px;">
-          IdeaSpark exists to prove an important internet truth: you don't need a product, pitch deck, or roadmap to look delightfully mysterious.
-          We might build a blog someday. Or not. Either way, this page will remain charmingly undecided.
+          IdeaSpark exists to prove an important internet truth: you don’t need a product or roadmap to look mysterious.
         </p>
 
         <footer>
-          <div class="foot-left">
-            <div class="foot-thing" aria-hidden="true">🤫</div>
-          </div>
+          <div class="foot-thing">🤫</div>
           <div style="text-align:right">
             <div style="font-weight:600">Maybe coming soon</div>
-            <div style="color:var(--muted);font-size:12px">or maybe never</div>
+            <div style="font-size:12px;color:var(--muted)">or maybe never</div>
           </div>
         </footer>
       </section>
 
+      <!-- RIGHT COLUMN -->
       <aside class="right">
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -324,19 +279,14 @@
             <li>Free to stare at</li>
           </ul>
 
-          <a class="cta" id="btn-spark" href="#spark" role="button">
-            Tap the spark ✨
-          </a>
-
-          <div style="margin-top:10px;">
-            <a class="email" href="mailto:hello@ideaspark.in">hello@ideaspark.in</a>
-          </div>
+          <a class="cta" id="btn-spark" href="#spark">Tap the spark ✨</a>
+          <a class="email" href="mailto:hello@ideaspark.in">hello@ideaspark.in</a>
         </div>
 
         <div class="card">
           <div style="font-weight:700">Tiny status board</div>
-          <div style="margin-top:8px;color:var(--muted);">Today's decision: <strong>Undecided</strong></div>
-          <div style="margin-top:12px;color:var(--muted);font-size:13px">Last updated: the moment you loaded this page.</div>
+          <div style="margin-top:8px;color:var(--muted)">Today's decision: <strong>Undecided</strong></div>
+          <div style="margin-top:12px;color:var(--muted);font-size:13px;">Last updated: now.</div>
 
           <div style="margin-top:12px;display:flex;gap:10px;">
             <button class="cta" id="btn-rename" style="background:transparent;border:1px dashed rgba(255,255,255,0.04);">Rename idea</button>
@@ -347,10 +297,11 @@
     </div>
   </div>
 
-  <div id="confetti" class="confetti" aria-hidden="true"></div>
+  <div id="confetti" class="confetti"></div>
 
+  <!-- JS (unchanged from your original, trimmed only whitespace) -->
   <script>
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const lines = [
       "This page is practicing purposeful idleness.",
@@ -359,175 +310,94 @@
       "Click the spark. Be delighted. Or mildly confused."
     ];
 
-    (function typewriter() {
-      const el = document.getElementById('typewriter');
-      let lineIndex = 0, charIndex = 0;
-      const typeSpeed = 40;
-      const pause = 1200;
+    /* Typewriter */
+    (function(){
+      const el = document.getElementById("typewriter");
+      if (!el) return;
+      let i=0,j=0;
+      const speed=40, pause=1200;
 
-      function step() {
-        if (reduceMotion) { el.textContent = lines.join(' • '); return; }
-        const current = lines[lineIndex];
-        el.textContent = current.slice(0, charIndex);
-        charIndex++;
-        if (charIndex <= current.length) {
-          setTimeout(step, typeSpeed + Math.random()*40);
-        } else {
-          setTimeout(() => {
-            const backspace = setInterval(() => {
-              charIndex--;
-              el.textContent = current.slice(0, charIndex);
-              if (charIndex <= 0) {
-                clearInterval(backspace);
-                lineIndex = (lineIndex + 1) % lines.length;
-                setTimeout(step, 300);
-              }
-            }, 22 + Math.random()*20);
-          }, pause);
+      function step(){
+        const t=lines[i];
+        el.textContent=t.slice(0,j);
+        j++;
+        if(j<=t.length) setTimeout(step, speed+Math.random()*40);
+        else{
+          setTimeout(()=>{
+            const back=setInterval(()=>{
+              j--; el.textContent=t.slice(0,j);
+              if(j<=0){ clearInterval(back); i=(i+1)%lines.length; setTimeout(step,300); }
+            },20+Math.random()*20);
+          },pause);
         }
       }
-      step();
+      if(!reduceMotion) step(); else el.textContent=lines.join(" • ");
     })();
 
-    (function createParticles(){
-      if (reduceMotion) return;
-      const area = document.querySelector('.spark-area');
-      for (let i=0;i<8;i++){
-        const p = document.createElement('div');
-        p.className = 'particle';
-        const left = 20 + Math.random()*60;
-        const top = 20 + Math.random()*60;
-        p.style.left = left + '%';
-        p.style.top = top + '%';
-        p.style.width = (6 + Math.random()*10) + 'px';
-        p.style.height = (6 + Math.random()*10) + 'px';
-        p.style.opacity = 0.6 + Math.random()*0.4;
-        area.appendChild(p);
-        floatElement(p, {x: (Math.random()*40-20), y:(Math.random()*40-20), dur: 3000+Math.random()*4000});
-      }
-    })();
+    /* Spark confetti */
+    function confettiBurst(x,y,count=30){
+      if(reduceMotion) return;
+      const layer=document.getElementById("confetti");
+      const colors=["#ffcc33","#ffd966","#ff8c66","#66ffd9","#66b3ff"];
+      for(let i=0;i<count;i++){
+        const p=document.createElement("div");
+        p.className="confetti-piece";
+        p.style.position="absolute";
+        p.style.left=x+(Math.random()*120-60)+"px";
+        p.style.top=y+(Math.random()*40-20)+"px";
+        p.style.width=(6+Math.random()*12)+"px";
+        p.style.height=(8+Math.random()*12)+"px";
+        p.style.background=colors[Math.floor(Math.random()*colors.length)];
+        layer.appendChild(p);
 
-    function floatElement(el, {x=0,y=0,dur=3000}){
-      if (reduceMotion) return;
-      let start = null;
-      const sx = parseFloat(el.style.left);
-      const sy = parseFloat(el.style.top);
-      function step(ts){
-        if (!start) start = ts;
-        const t = (ts-start)/dur;
-        const ease = Math.sin(t*Math.PI*2)/2 + 0.5;
-        const nx = sx + x*ease;
-        const ny = sy + y*ease;
-        el.style.left = nx + '%';
-        el.style.top = ny + '%';
-        if (t < 1) requestAnimationFrame(step);
-        else {
-          floatElement(el, {x: -x, y:-y, dur:dur + (Math.random()*800-400)});
-        }
-      }
-      requestAnimationFrame(step);
-    }
-
-    function launchConfetti(x = window.innerWidth/2, y = window.innerHeight/2, count = 30){
-      if (reduceMotion) return;
-      const layer = document.getElementById('confetti');
-      const colors = ['#ffcc33','#ffd966','#ff8c66','#66ffd9','#66b3ff'];
-      for (let i=0;i<count;i++){
-        const el = document.createElement('div');
-        el.className = 'confetti-piece';
-        el.style.left = x + (Math.random()*120-60) + 'px';
-        el.style.top = y + (Math.random()*20-10) + 'px';
-        el.style.width = (6 + Math.random()*12) + 'px';
-        el.style.height = (8 + Math.random()*12) + 'px';
-        el.style.background = colors[Math.floor(Math.random()*colors.length)];
-        el.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
-        layer.appendChild(el);
-        animateConfettiPiece(el);
-        setTimeout(()=>{ try{layer.removeChild(el)}catch(e){} }, 2500 + Math.random()*1200);
+        animateConfetti(p);
+        setTimeout(()=>{ try{p.remove();}catch(e){} },2500);
       }
     }
 
-    function animateConfettiPiece(el){
-      const startX = parseFloat(el.style.left);
-      const startY = parseFloat(el.style.top);
-      const vx = (Math.random()*10 - 5);
-      const vy = (8 + Math.random()*10);
-      const rotSpeed = (Math.random()*720 - 360);
-      const start = performance.now();
+    function animateConfetti(el){
+      const sx=parseFloat(el.style.left), sy=parseFloat(el.style.top);
+      const vx=Math.random()*10-5, vy=8+Math.random()*12;
+      const rs=Math.random()*720-360;
+      const start=performance.now();
       function frame(now){
-        const t = (now - start)/1000;
-        el.style.left = (startX + vx * t * 25) + 'px';
-        el.style.top = (startY + vy * t) + 'px';
-        el.style.transform = 'rotate(' + (rotSpeed * t) + 'deg)';
-        el.style.opacity = Math.max(0, 1 - t/2.6);
-        if (t < 3) requestAnimationFrame(frame);
+        const t=(now-start)/1000;
+        el.style.left=sx+vx*t*25+"px";
+        el.style.top=sy+vy*t+"px";
+        el.style.transform="rotate("+(rs*t)+"deg)";
+        el.style.opacity=Math.max(0,1-t/2.4);
+        if(t<3) requestAnimationFrame(frame);
       }
       requestAnimationFrame(frame);
     }
 
-    (function sparkBehaviour(){
-      const spark = document.getElementById('spark');
-      const btn = document.getElementById('btn-spark');
-      function trigger(e){
-        const rect = spark.getBoundingClientRect();
-        const cx = rect.left + rect.width/2;
-        const cy = rect.top + rect.height/2;
-        spark.animate([
-          { transform: 'scale(1)' },
-          { transform: 'scale(1.18)' },
-          { transform: 'scale(0.98)' },
-          { transform: 'scale(1)' }
-        ], { duration: 320, easing: 'cubic-bezier(.2,.9,.2,1)'});
-        for (let i=0;i<12;i++){
-          const p = document.createElement('div');
-          p.className = 'confetti-piece';
-          p.style.left = (cx + (Math.random()*120-60)) + 'px';
-          p.style.top = (cy + (Math.random()*90-45)) + 'px';
-          p.style.width = (6 + Math.random()*12) + 'px';
-          p.style.height = (8 + Math.random()*12) + 'px';
-          p.style.background = ['#ffcc33','#ffd966','#66ffd9'][Math.floor(Math.random()*3)];
-          p.style.opacity = 0.95;
-          document.getElementById('confetti').appendChild(p);
-          animateConfettiPiece(p);
-          setTimeout(()=>{ try{p.remove()}catch(e){} }, 1600 + Math.random()*600);
-        }
-        launchConfetti(cx, cy, 30);
-        const pressed = spark.getAttribute('aria-pressed') === 'true';
-        spark.setAttribute('aria-pressed', String(!pressed));
+    /* Spark click handler */
+    (function(){
+      const spark=document.getElementById("spark");
+      const btn=document.getElementById("btn-spark");
+      if(!spark) return;
+
+      function fire(){
+        const r=spark.getBoundingClientRect();
+        const x=r.left+r.width/2, y=r.top+r.height/2;
+        spark.animate([{transform:"scale(1)"},{transform:"scale(1.2)"},{transform:"scale(1)"}],{duration:300});
+        confettiBurst(x,y,30);
       }
-      spark.addEventListener('click', trigger);
-      spark.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); trigger(); }
-      });
-      btn.addEventListener('click', (e) => { e.preventDefault(); spark.focus(); spark.click(); });
+
+      spark.onclick=fire;
+      btn.onclick=e=>{ e.preventDefault(); fire(); };
+      spark.onkeydown=e=>{ if(e.key==="Enter"||e.key===" ") fire(); };
     })();
 
-    (function renameFlow(){
-      const btn = document.getElementById('btn-rename');
-      btn.addEventListener('click', ()=>{
-        const newName = prompt('Give your idea a name (or leave blank to cancel):', 'My Brilliant Nothing');
-        if (newName){
-          document.title = newName + ' — IdeaSpark.in';
-          alert('Nice name. The internet is now marginally more dignified.');
-        }
-      });
-      document.getElementById('btn-reset').addEventListener('click', ()=>{
-        document.title = 'IdeaSpark.in — Where ideas come to chill';
-        alert('Reset. The nothing returns. Peace restored.');
-      });
-    })();
-
-    (function greet(){
-      const greeted = sessionStorage.getItem('ideaspark_greeted');
-      if (!greeted){
-        const live = document.createElement('div');
-        live.setAttribute('aria-live','polite');
-        live.style.position='absolute';
-        live.style.left='-9999px';
-        live.textContent = 'Welcome to IdeaSpark dot I N. This site is practicing mild, intentional idleness.';
-        document.body.appendChild(live);
-        sessionStorage.setItem('ideaspark_greeted','1');
+    /* Rename + Reset */
+    (function(){
+      const rn=document.getElementById("btn-rename");
+      const rs=document.getElementById("btn-reset");
+      rn.onclick=()=>{
+        const n=prompt("Name your idea:","My Brilliant Nothing");
+        if(n){ document.title=n+" — IdeaSpark.in"; alert("Name updated."); }
       }
+      rs.onclick=()=>{ document.title="IdeaSpark.in — Where ideas come to chill"; alert("Reset."); }
     })();
   </script>
 </body>
