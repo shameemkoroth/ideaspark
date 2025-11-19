@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IdeaSpark.in — Gentle. Minimal. Maybe brilliant.</title>
+  <meta name="description" content="IdeaSpark.in — a calm corner of the web. Minimal site, modern glass style, neon accent." />
+  <style>
+    /* ---------- Theme variables (light/dark handled via [data-theme]) ---------- */
+    :root{
+      --bg-0: #03040a;
+      --bg-1: #070814;
+      --panel: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.06);
+      --muted: #9fb0c9;
+      --accent: #ffd24d;
+      --accent-2: #7be6d1;
+      --text: #e9f2ff;
+      --card-radius: 14px;
+      --max-w: 1100px;
+      --ff: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --toast-bg: rgba(2,6,23,0.85);
+    }
+
+    /* Light theme overrides */
+    :root[data-theme="light"]{
+      --bg-0: #f6f8fb;
+      --bg-1: #eef6fb;
+      --panel: rgba(3,6,12,0.04);
+      --glass-border: rgba(2,6,23,0.06);
+      --muted: #425466;
+      --accent: #ff9f1c;
+      --accent-2: #00b894;
+      --text: #071423;
+      --toast-bg: rgba(255,255,255,0.96);
+    }
+
+    /* ---------- Reset & base ---------- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--ff);
+      background:
+        radial-gradient(600px 300px at 10% 20%, rgba(123,230,209,0.04), transparent),
+        radial-gradient(800px 400px at 90% 80%, rgba(255,210,77,0.03), transparent),
+        linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+    }
+
+    /* ---------- Layout ---------- */
+    .stage{
+      width:100%;
+      max-width:var(--max-w);
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:28px;
+      align-items:start;
+    }
+    @media (max-width:980px){ .stage{ grid-template-columns: 1fr; } }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: var(--card-radius);
+      padding:28px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 20px 60px rgba(4,6,12,0.6);
+      position:relative;
+      overflow:hidden;
+      color:var(--text);
+    }
+
+    /* ---------- Header & theme toggle ---------- */
+    .hero{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .hero-left{ display:flex; gap:20px; align-items:center; }
+    .logo {
+      width:72px;
+      height:72px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg,#0f172a, rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.03);
+      flex-shrink:0;
+    }
+    .brand {
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .site-title{
+      font-size: clamp(20px,3.2vw,32px);
+      margin:0;
+      letter-spacing:-0.01em;
+      font-weight:700;
+    }
+    .site-sub{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .theme-toggle {
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:8px;
+      border-radius:12px;
+      cursor:pointer;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid var(--glass-border);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .theme-toggle:active{ transform: translateY(1px); }
+    .theme-icon { width:22px; height:22px; display:grid; place-items:center; font-size:14px; }
+
+    /* ---------- Intro ---------- */
+    .intro{
+      margin-top:18px;
+      font-size:16px;
+      line-height:1.6;
+      color:var(--text);
+      max-width:62ch;
+    }
+
+    /* ---------- Callouts ---------- */
+    .row{
+      display:flex;
+      gap:12px;
+      margin-top:20px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      background: rgba(255,255,255,0.02);
+      border-radius:999px;
+      padding:8px 12px;
+      color:var(--muted);
+      font-weight:600;
+      font-size:13px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* ---------- Right column ---------- */
+    .card-compact{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      align-items:stretch;
+    }
+    .mini{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .small-title{ font-weight:700; color:var(--text); }
+    .muted{ color:var(--muted); font-size:14px; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:10px;
+      background: linear-gradient(90deg, rgba(255,210,77,0.12), rgba(123,230,209,0.06));
+      color: #061523;
+      font-weight:700;
+      border: 1px solid rgba(255,255,255,0.03);
+      text-decoration:none;
+      cursor:pointer;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-ghost{
+      background: transparent;
+      border:1px dashed rgba(255,255,255,0.04);
+      color:var(--muted);
+    }
+
+    /* ---------- Large glass card ---------- */
+    .glass{
+      margin-top:22px;
+      padding:22px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+    .spark-area{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      justify-content:space-between;
+    }
+    .big-spark{
+      width:110px;
+      height:110px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg, rgba(255,210,77,0.14), rgba(123,230,209,0.06));
+      font-size:42px;
+      color:#05151a;
+      font-weight:800;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s ease;
+      box-shadow: 0 12px 36px rgba(2,6,23,0.45);
+    }
+    .big-spark:hover{ transform: translateY(-6px) rotate(-2deg); box-shadow:0 26px 66px rgba(2,6,23,0.6); }
+
+    /* ---------- Contact form (mailto based) ---------- */
+    .form-row{ display:flex; gap:10px; margin-top:12px; }
+    .field{ flex:1; display:flex; flex-direction:column; gap:6px; }
+    input[type="text"], input[type="email"], textarea {
+      background: transparent;
+      color: var(--text);
+      border:1px solid rgba(255,255,255,0.03);
+      padding:10px 12px;
+      border-radius:8px;
+      outline:none;
+    }
+    textarea{ min-height:100px; resize:vertical; }
+    input::placeholder, textarea::placeholder { color: #8fa6c0; }
+
+    /* ---------- Footer ---------- */
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+    }
+
+    /* ---------- Toast ---------- */
+    .toast {
+      position:fixed;
+      left:50%;
+      bottom:36px;
+      transform:translateX(-50%) translateY(10px);
+      background: var(--toast-bg);
+      color: var(--text);
+      padding:10px 16px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.03);
+      z-index:9999;
+      font-weight:600;
+      opacity:0;
+      transition: opacity .18s ease, transform .22s cubic-bezier(.2,.9,.2,1);
+    }
+
+    /* ----- subtle animation (reduced-motion respected) ----- */
+    @keyframes glow { 0% { box-shadow:0 6px 18px rgba(255,210,77,0.05); transform: translateY(0) } 50% { box-shadow:0 24px 48px rgba(255,210,77,0.08); transform: translateY(-4px) } 100% { box-shadow:0 6px 18px rgba(255,210,77,0.05); transform: translateY(0) } }
+    .big-spark.animate { animation: glow 4.5s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce){
+      .big-spark.animate, .btn { animation: none !important; transition: none !important; transform:none !important; }
+    }
+
+    /* small responsive */
+    @media (max-width:980px){
+      .big-spark { margin:12px 0 0 0; }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="stage" role="main" id="stage">
+    <!-- Left (main) -->
+    <section class="panel" aria-labelledby="title">
+      <div class="hero">
+        <div class="hero-left">
+          <div class="logo" aria-hidden="true">
+            <!-- simple inline svg logo -->
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="url(#g)"/>
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0" stop-color="#ffd24d"/>
+                  <stop offset="1" stop-color="#7be6d1"/>
+                </linearGradient>
+              </defs>
+              <path d="M12 7a5 5 0 0 0-1 9.9V19h2v-2.1A5 5 0 0 0 12 7z" fill="#051523"/>
+            </svg>
+          </div>
+
+          <div class="brand">
+            <h1 id="title" class="site-title">IdeaSpark.in</h1>
+            <div class="site-sub">A gentle, minimal place on the web — currently uncommitted.</div>
+          </div>
+        </div>
+
+        <div>
+          <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle color theme">
+            <span id="themeIcon" class="theme-icon" aria-hidden="true">🌙</span>
+            <span class="muted" id="themeLabel">Dark</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="intro">
+        Sometimes the best ideas begin in quiet. IdeaSpark.in is a tidy pause: no products, no ads, just a small
+        visual breath of web space. If inspiration strikes, keep it. If not — that's fine too.
+      </p>
+
+      <div class="row" aria-hidden="false">
+        <div class="pill">No sign-ups</div>
+        <div class="pill">No trackers</div>
+        <div class="pill">Open to surprises</div>
+      </div>
+
+      <div class="glass" aria-hidden="false">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <div>
+            <div style="font-weight:800;font-size:16px">What's happening</div>
+            <div class="muted" style="margin-top:6px">Right now: undecided. That's intentionally okay.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <div class="accent" title="accent dot" aria-hidden="true" style="width:10px;height:10px;border-radius:3px;background:var(--accent);"></div>
+            <small class="muted">v1 • static</small>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; display:flex;gap:12px; align-items:center; flex-wrap:wrap;">
+          <button id="sparkBtn" class="btn" title="Click for a tiny playful action">Tap the spark ✨</button>
+          <a class="btn btn-ghost" href="#contact" title="jump to contact">Contact (mailto)</a>
+        </div>
+      </div>
+
+      <footer>
+        <div>© IdeaSpark.in</div>
+        <div class="muted">Made to be a calm web presence.</div>
+      </footer>
+    </section>
+
+    <!-- Right (sidebar) -->
+    <aside class="panel card-compact" aria-label="Sidebar">
+      <div class="mini">
+        <div class="small-title">Quick status</div>
+        <div class="muted" style="margin-top:8px">Decision for today: <strong style="color:var(--text)">Undecided</strong></div>
+        <div style="margin-top:12px" class="muted">Last updated: when you loaded this page</div>
+      </div>
+
+      <div class="mini" id="contact">
+        <div class="small-title">Send a quick note</div>
+        <div class="muted" style="margin-top:8px">A lightweight mailto-based contact — opens your email client.</div>
+
+        <!-- mailto form: constructs subject/body via JS -->
+        <div style="margin-top:12px;">
+          <label class="muted" for="name">Your name</label>
+          <input id="name" type="text" placeholder="e.g. A Curious Stranger">
+
+          <label class="muted" for="email" style="margin-top:8px">Your email (optional)</label>
+          <input id="email" type="email" placeholder="you@example.com">
+
+          <label class="muted" for="message" style="margin-top:8px">Message</label>
+          <textarea id="message" placeholder="Share an idea, a hello, or nothing at all."></textarea>
+
+          <div style="display:flex;gap:10px;margin-top:12px;">
+            <button id="sendMail" class="btn">Open email client</button>
+            <button id="clearForm" class="btn btn-ghost">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini" aria-hidden="false" style="text-align:center;">
+        <div class="small-title">Why minimal?</div>
+        <div class="muted" style="margin-top:8px">A simpler page can be a nicer blank canvas for your attention.</div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- toast holder (created by script) -->
+  <div id="toastRoot" aria-hidden="true"></div>
+
+  <script>
+    // Respect reduced motion
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* -------------------------
+       Theme toggle logic
+       - Uses data-theme attribute on :root
+       - values: "dark" (default) or "light"
+       - persists in localStorage key 'ideaspark_theme'
+       ------------------------- */
+    (function themeSetup(){
+      const root = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      const KEY = 'ideaspark_theme';
+
+      function applyTheme(theme){
+        if (theme === 'light') root.setAttribute('data-theme','light');
+        else root.removeAttribute('data-theme');
+        // update UI
+        const isLight = (theme === 'light');
+        icon.textContent = isLight ? '☀️' : '🌙';
+        label.textContent = isLight ? 'Light' : 'Dark';
+        toggle.setAttribute('aria-pressed', String(isLight));
+      }
+
+      // Determine initial theme:
+      // 1) localStorage
+      // 2) system preference
+      // 3) default to dark
+      const saved = localStorage.getItem(KEY);
+      if (saved) applyTheme(saved);
+      else {
+        const sys = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        applyTheme(sys ? 'light' : 'dark');
+      }
+
+      // Click handler toggles and persists
+      toggle.addEventListener('click', ()=>{
+        const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        const next = current === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+        try { localStorage.setItem(KEY, next); } catch(e){}
+        showToast(next === 'light' ? 'Switched to light theme' : 'Switched to dark theme');
+      });
+
+      // also listen for system preference changes (only if user hasn't chosen)
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', (e)=>{
+        const saved = localStorage.getItem(KEY);
+        if (saved) return; // user preference wins
+        applyTheme(e.matches ? 'light' : 'dark');
+      });
+    })();
+
+    /* -------------------------
+       Spark micro-interaction & toast
+    ------------------------- */
+    const sparkBtn = document.getElementById('sparkBtn');
+    sparkBtn.addEventListener('click', () => {
+      if (!prefersReduced) {
+        sparkBtn.classList.add('anim');
+        setTimeout(()=>sparkBtn.classList.remove('anim'), 900);
+      }
+      showToast("You pressed the spark. No obligations. ✨");
+    });
+
+    /* Toast utility */
+    function showToast(text, timeout = 2000){
+      const root = document.getElementById('toastRoot');
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.setAttribute('role','status');
+      t.textContent = text;
+      root.appendChild(t);
+      // small show
+      requestAnimationFrame(()=>{ t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(0)'; });
+      setTimeout(()=>{ t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(10px)'; setTimeout(()=>t.remove(),240); }, timeout);
+    }
+
+    /* -------------------------
+       Contact form (mailto)
+    ------------------------- */
+    document.getElementById('clearForm').addEventListener('click', (e)=>{
+      e.preventDefault();
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('message').value = '';
+      showToast('Cleared.');
+    });
+
+    document.getElementById('sendMail').addEventListener('click', (e)=>{
+      e.preventDefault();
+      const name = encodeURIComponent(document.getElementById('name').value || 'Anonymous');
+      const email = document.getElementById('email').value || '';
+      const message = document.getElementById('message').value || '';
+      const subject = encodeURIComponent(`IdeaSpark message from ${decodeURIComponent(name)}`);
+      let body = message;
+      if (email) body += `\n\nReply to: ${email}`;
+      const mailto = `mailto:hello@ideaspark.in?subject=${subject}&body=${encodeURIComponent(body)}`;
+      // open mail client
+      window.location.href = mailto;
+    });
+
+    /* Accessibility: announce once */
+    (function announceOnce(){
+      if (sessionStorage.getItem('ideaspark_announced')) return;
+      const sr = document.createElement('div');
+      sr.setAttribute('aria-live','polite');
+      sr.style.position='absolute'; sr.style.left='-9999px';
+      sr.textContent = 'IdeaSpark dot I N. A calm, minimal web page.';
+      document.body.appendChild(sr);
+      sessionStorage.setItem('ideaspark_announced','1');
+    })();
+  </script>
+</body>
+</html>
