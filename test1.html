@@ -7,7 +7,6 @@
   <meta name="description" content="IdeaSpark.in — a tiny, proud website that currently does nothing. Minimal, quirky & animated." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ffcc33'/%3E%3Ctext x='50' y='58' font-size='40' text-anchor='middle' fill='%23112233' font-family='Segoe UI, Roboto, Arial'%3E%F0%9F%92%A1%3C/text%3E%3C/svg%3E">
   <style>
-    /* ========== Reset & variables ========== */
     :root{
       --bg1:#0b1020;
       --bg2:#0e1a2b;
@@ -32,7 +31,6 @@
       padding:40px 20px;
     }
 
-    /* Container */
     .wrap{
       width:100%;
       max-width:var(--max-width);
@@ -75,7 +73,6 @@
       gap:12px;
     }
 
-    /* Wobble animation for "proudly does nothing" vibe */
     .wobble {
       display:inline-block;
       transform-origin: 50% 50%;
@@ -95,7 +92,6 @@
       font-size: clamp(14px, 2.3vw, 18px);
     }
 
-    /* Main content grid */
     .grid{
       margin-top:28px;
       display:grid;
@@ -104,7 +100,6 @@
     }
     @media (max-width:880px){ .grid{ grid-template-columns: 1fr; } }
 
-    /* Card */
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border-radius:14px;
@@ -121,7 +116,6 @@
       align-items:center;
     }
 
-    /* Typewriter subtitle */
     .typewriter{
       margin-top:12px;
       font-weight:600;
@@ -131,7 +125,6 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
     }
 
-    /* Spark / floating bubble area */
     .spark-area{
       position:relative;
       min-height:260px;
@@ -156,7 +149,6 @@
     }
     .spark:active{ transform: translateY(3px) scale(0.98); }
 
-    /* floating tiny sparks */
     .particle{
       position:absolute;
       width:10px;height:10px;border-radius:4px;
@@ -167,7 +159,6 @@
       pointer-events:none;
     }
 
-    /* Right column */
     .right{
       display:flex;
       flex-direction:column;
@@ -213,7 +204,6 @@
       font-size:13px;
     }
 
-    /* silly footer icon */
     .foot-thing {
       display:inline-grid;
       place-items:center;
@@ -223,7 +213,6 @@
       font-weight:700;
     }
 
-    /* Confetti pieces (animated with JS by toggling .fall) */
     .confetti {
       position:fixed;
       pointer-events:none;
@@ -241,12 +230,43 @@
       border-radius:2px;
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion:reduce){
       .wobble, .spark, .particle, .cta, .typewriter { animation: none !important; transition: none !important; }
     }
+
+    /* ======================================================
+       🔥 MOBILE FIXES – Visible content on all screen sizes
+       ====================================================== */
+    @media (max-width: 880px) {
+      body {
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 18px 12px;
+      }
+
+      .wrap {
+        min-height: auto;
+        max-height: calc(100vh - 36px);
+        overflow: auto;
+        padding: 20px;
+        border-radius: 14px;
+      }
+
+      .spark-area { min-height: 180px; }
+      .typewriter { min-height: 28px; }
+
+      header {
+        position: sticky;
+        top: 12px;
+        background: transparent;
+        z-index: 10;
+      }
+    }
+
+    .wrap { overflow: visible; }
   </style>
 </head>
+
 <body>
   <div class="wrap" role="main" aria-labelledby="main-title">
     <header>
@@ -268,7 +288,6 @@
           <div id="spark" class="spark" role="button" tabindex="0" aria-pressed="false" title="Click me — I promise nothing">
             ✨
           </div>
-          <!-- floating particles are injected via JS to feel alive -->
         </div>
 
         <div class="typewriter" id="typewriter" aria-live="polite"></div>
@@ -314,7 +333,7 @@
           </div>
         </div>
 
-        <div class="card" aria-hidden="false">
+        <div class="card">
           <div style="font-weight:700">Tiny status board</div>
           <div style="margin-top:8px;color:var(--muted);">Today's decision: <strong>Undecided</strong></div>
           <div style="margin-top:12px;color:var(--muted);font-size:13px">Last updated: the moment you loaded this page.</div>
@@ -328,18 +347,11 @@
     </div>
   </div>
 
-  <!-- confetti layer -->
   <div id="confetti" class="confetti" aria-hidden="true"></div>
 
   <script>
-    // ------------------------
-    // Tiny interactive JS
-    // ------------------------
-
-    // Respect reduced motion
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Typewriter lines (playful)
     const lines = [
       "This page is practicing purposeful idleness.",
       "Ideas may spark. Or they may nap.",
@@ -347,7 +359,6 @@
       "Click the spark. Be delighted. Or mildly confused."
     ];
 
-    // Typewriter implementation
     (function typewriter() {
       const el = document.getElementById('typewriter');
       let lineIndex = 0, charIndex = 0;
@@ -363,7 +374,6 @@
           setTimeout(step, typeSpeed + Math.random()*40);
         } else {
           setTimeout(() => {
-            // backspace effect
             const backspace = setInterval(() => {
               charIndex--;
               el.textContent = current.slice(0, charIndex);
@@ -379,14 +389,13 @@
       step();
     })();
 
-    // Particle floaters: create a few tiny particles around the spark
     (function createParticles(){
       if (reduceMotion) return;
       const area = document.querySelector('.spark-area');
       for (let i=0;i<8;i++){
         const p = document.createElement('div');
         p.className = 'particle';
-        const left = 20 + Math.random()*60; // percent
+        const left = 20 + Math.random()*60;
         const top = 20 + Math.random()*60;
         p.style.left = left + '%';
         p.style.top = top + '%';
@@ -394,12 +403,10 @@
         p.style.height = (6 + Math.random()*10) + 'px';
         p.style.opacity = 0.6 + Math.random()*0.4;
         area.appendChild(p);
-        // animate with subtle floating
         floatElement(p, {x: (Math.random()*40-20), y:(Math.random()*40-20), dur: 3000+Math.random()*4000});
       }
     })();
 
-    // helper: float animation using requestAnimationFrame
     function floatElement(el, {x=0,y=0,dur=3000}){
       if (reduceMotion) return;
       let start = null;
@@ -415,14 +422,12 @@
         el.style.top = ny + '%';
         if (t < 1) requestAnimationFrame(step);
         else {
-          // reverse
           floatElement(el, {x: -x, y:-y, dur:dur + (Math.random()*800-400)});
         }
       }
       requestAnimationFrame(step);
     }
 
-    // Confetti generator (simple)
     function launchConfetti(x = window.innerWidth/2, y = window.innerHeight/2, count = 30){
       if (reduceMotion) return;
       const layer = document.getElementById('confetti');
@@ -447,7 +452,7 @@
       const startY = parseFloat(el.style.top);
       const vx = (Math.random()*10 - 5);
       const vy = (8 + Math.random()*10);
-      const rotSpeed = (Math.random()*720 - 360); // deg per second
+      const rotSpeed = (Math.random()*720 - 360);
       const start = performance.now();
       function frame(now){
         const t = (now - start)/1000;
@@ -460,7 +465,6 @@
       requestAnimationFrame(frame);
     }
 
-    // Spark click behavior - toggles aria pressed state and launches confetti
     (function sparkBehaviour(){
       const spark = document.getElementById('spark');
       const btn = document.getElementById('btn-spark');
@@ -474,7 +478,6 @@
           { transform: 'scale(0.98)' },
           { transform: 'scale(1)' }
         ], { duration: 320, easing: 'cubic-bezier(.2,.9,.2,1)'});
-        // tiny particle pulse
         for (let i=0;i<12;i++){
           const p = document.createElement('div');
           p.className = 'confetti-piece';
@@ -488,9 +491,7 @@
           animateConfettiPiece(p);
           setTimeout(()=>{ try{p.remove()}catch(e){} }, 1600 + Math.random()*600);
         }
-        // larger confetti shower
         launchConfetti(cx, cy, 30);
-        // toggle aria-pressed for a smidge of state
         const pressed = spark.getAttribute('aria-pressed') === 'true';
         spark.setAttribute('aria-pressed', String(!pressed));
       }
@@ -501,7 +502,6 @@
       btn.addEventListener('click', (e) => { e.preventDefault(); spark.focus(); spark.click(); });
     })();
 
-    // Tiny rename flow: prompt (keeps it simple)
     (function renameFlow(){
       const btn = document.getElementById('btn-rename');
       btn.addEventListener('click', ()=>{
@@ -517,7 +517,6 @@
       });
     })();
 
-    // Accessibility: announce a one-time friendly greeting
     (function greet(){
       const greeted = sessionStorage.getItem('ideaspark_greeted');
       if (!greeted){
@@ -530,7 +529,6 @@
         sessionStorage.setItem('ideaspark_greeted','1');
       }
     })();
-
   </script>
 </body>
 </html>
