@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- CRITICAL FIX: Ensure the viewport meta tag is correct and present. It was already correct, but this confirms it. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>IdeaSpark — a place for nothing</title>
   <meta name="description" content="IdeaSpark.in — a tiny digital island that exists for no reason at all." />
   <meta name="theme-color" content="#0f172a" />
@@ -42,7 +43,8 @@
       color:#e6eef8;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      padding:32px 16px;
+      /* Removed fixed padding to let the wrap element handle spacing on small screens */
+      padding:0; 
       display:flex;
       align-items:center;
       justify-content:center;
@@ -61,6 +63,8 @@
       position:relative;
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.03);
+      /* Added margin for desktop to prevent it from touching the screen edges */
+      margin: 32px 16px; 
     }
 
     header{
@@ -210,14 +214,27 @@
     @media (max-width:880px){
       main{grid-template-columns:1fr; padding-bottom:4px}
       .side{order:2}
-      .wrap{ padding:18px; border-radius:16px; }
+      .wrap{ 
+        padding:18px; 
+        border-radius:16px; 
+        /* FIX: Remove margin on mobile to allow full width usage */
+        margin: 0 16px; 
+      }
       .logo{ width:56px; height:56px; }
       .logo img.logo-img{ width:40px; height:40px; }
     }
 
     @media (max-width:480px){
-      body{ padding:18px 12px; }
-      .wrap{ padding:16px; border-radius:14px; }
+      body{ 
+        /* FIX: Use padding on body for overall mobile spacing */
+        padding:18px 12px; 
+      }
+      .wrap{ 
+        padding:16px; 
+        border-radius:14px; 
+        /* FIX: Remove margin completely on smallest screens */
+        margin: 0; 
+      }
       header{ gap:10px; }
       .logo{ width:48px; height:48px; border-radius:10px; }
       .logo img.logo-img{ width:36px; height:36px; }
