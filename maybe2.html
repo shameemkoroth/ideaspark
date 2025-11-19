@@ -3,501 +3,332 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>IdeaSpark.in — Gentle. Minimal. Maybe brilliant.</title>
-  <meta name="description" content="IdeaSpark.in — a calm corner of the web. Minimal site, modern glass style, neon accent." />
+  <title>IdeaSpark — a place for nothing</title>
+  <meta name="description" content="IdeaSpark.in — a tiny digital island that exists for no reason at all." />
+  <meta name="theme-color" content="#0f172a" />
+
+  <!-- Minimal, modern styling -->
   <style>
-    /* ---------- Theme variables (light/dark handled via [data-theme]) ---------- */
     :root{
-      --bg-0: #03040a;
-      --bg-1: #070814;
-      --panel: rgba(255,255,255,0.04);
-      --glass-border: rgba(255,255,255,0.06);
-      --muted: #9fb0c9;
-      --accent: #ffd24d;
-      --accent-2: #7be6d1;
-      --text: #e9f2ff;
-      --card-radius: 14px;
-      --max-w: 1100px;
-      --ff: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      --toast-bg: rgba(2,6,23,0.85);
+      --bg:#0f172a;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#7dd3fc;
+      --glass: rgba(255,255,255,0.02);
+      --radius:16px;
+      --maxw:950px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
     }
 
-    /* Light theme overrides */
-    :root[data-theme="light"]{
-      --bg-0: #f6f8fb;
-      --bg-1: #eef6fb;
-      --panel: rgba(3,6,12,0.04);
-      --glass-border: rgba(2,6,23,0.06);
-      --muted: #425466;
-      --accent: #ff9f1c;
-      --accent-2: #00b894;
-      --text: #071423;
-      --toast-bg: rgba(255,255,255,0.96);
-    }
-
-    /* ---------- Reset & base ---------- */
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family:var(--ff);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background:
-        radial-gradient(600px 300px at 10% 20%, rgba(123,230,209,0.04), transparent),
-        radial-gradient(800px 400px at 90% 80%, rgba(255,210,77,0.03), transparent),
-        linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
-      color: var(--text);
+        radial-gradient(1200px 700px at 10% 20%, rgba(125,211,252,0.06), transparent 8%),
+        radial-gradient(1000px 600px at 90% 80%, rgba(99,102,241,0.04), transparent 8%),
+        var(--bg);
+      color:#e6eef8;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      padding:48px 20px;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:40px 20px;
+      min-height:100vh;
     }
 
-    /* ---------- Layout ---------- */
-    .stage{
+    .wrap{
       width:100%;
-      max-width:var(--max-w);
+      max-width:var(--maxw);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:24px;
+      padding:36px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      background: linear-gradient(135deg,var(--accent), #6366f1 70%);
       display:grid;
-      grid-template-columns: 1fr 380px;
+      place-items:center;
+      box-shadow: 0 6px 18px rgba(125,211,252,0.07);
+      flex:0 0 56px;
+    }
+
+    .logo svg{width:34px;height:34px;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.25));}
+
+    h1{
+      font-size:20px;
+      margin:0;
+      letter-spacing:0.2px;
+    }
+    .tag{font-size:12px;color:var(--muted);margin-top:4px}
+
+    main{
+      display:grid;
+      grid-template-columns: 1fr 360px;
       gap:28px;
       align-items:start;
     }
-    @media (max-width:980px){ .stage{ grid-template-columns: 1fr; } }
 
-    .panel{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: var(--card-radius);
-      padding:28px;
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 20px 60px rgba(4,6,12,0.6);
-      position:relative;
-      overflow:hidden;
-      color:var(--text);
-    }
-
-    /* ---------- Header & theme toggle ---------- */
-    .hero{
-      display:flex;
-      gap:20px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .hero-left{ display:flex; gap:20px; align-items:center; }
-    .logo {
-      width:72px;
-      height:72px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      background: linear-gradient(135deg,#0f172a, rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.03);
-      flex-shrink:0;
-    }
-    .brand {
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .site-title{
-      font-size: clamp(20px,3.2vw,32px);
-      margin:0;
-      letter-spacing:-0.01em;
-      font-weight:700;
-    }
-    .site-sub{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .theme-toggle {
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding:8px;
-      border-radius:12px;
-      cursor:pointer;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid var(--glass-border);
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .theme-toggle:active{ transform: translateY(1px); }
-    .theme-icon { width:22px; height:22px; display:grid; place-items:center; font-size:14px; }
-
-    /* ---------- Intro ---------- */
-    .intro{
-      margin-top:18px;
-      font-size:16px;
-      line-height:1.6;
-      color:var(--text);
-      max-width:62ch;
-    }
-
-    /* ---------- Callouts ---------- */
-    .row{
-      display:flex;
-      gap:12px;
-      margin-top:20px;
-      flex-wrap:wrap;
-    }
-    .pill{
-      background: rgba(255,255,255,0.02);
-      border-radius:999px;
-      padding:8px 12px;
-      color:var(--muted);
-      font-weight:600;
-      font-size:13px;
+    /* left card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+      border-radius:var(--radius);
+      padding:26px;
       border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 8px 24px rgba(2,6,23,0.45);
     }
 
-    /* ---------- Right column ---------- */
-    .card-compact{
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-      align-items:stretch;
+    .hero-title{
+      font-size:28px;
+      margin:0 0 10px 0;
+      line-height:1.05;
     }
-    .mini{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;
-      padding:16px;
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .small-title{ font-weight:700; color:var(--text); }
-    .muted{ color:var(--muted); font-size:14px; }
 
-    /* ---------- Buttons ---------- */
-    .btn {
+    .hero-sub{
+      color:var(--muted);
+      margin:0 0 18px 0;
+    }
+
+    .mutebutton{
       display:inline-flex;
       gap:10px;
       align-items:center;
       padding:10px 14px;
-      border-radius:10px;
-      background: linear-gradient(90deg, rgba(255,210,77,0.12), rgba(123,230,209,0.06));
-      color: #061523;
-      font-weight:700;
-      border: 1px solid rgba(255,255,255,0.03);
-      text-decoration:none;
-      cursor:pointer;
-      transition: transform .14s ease, box-shadow .14s ease;
-    }
-    .btn:active{ transform: translateY(1px); }
-    .btn-ghost{
-      background: transparent;
-      border:1px dashed rgba(255,255,255,0.04);
-      color:var(--muted);
-    }
-
-    /* ---------- Large glass card ---------- */
-    .glass{
-      margin-top:22px;
-      padding:22px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.02);
-    }
-    .spark-area{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      justify-content:space-between;
-    }
-    .big-spark{
-      width:110px;
-      height:110px;
-      border-radius:18px;
-      display:grid;
-      place-items:center;
-      background: linear-gradient(135deg, rgba(255,210,77,0.14), rgba(123,230,209,0.06));
-      font-size:42px;
-      color:#05151a;
-      font-weight:800;
+      background:var(--glass);
+      border-radius:999px;
+      color:var(--accent);
+      font-weight:600;
+      font-size:14px;
+      border:1px solid rgba(125,211,252,0.08);
       cursor:pointer;
       user-select:none;
-      transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s ease;
-      box-shadow: 0 12px 36px rgba(2,6,23,0.45);
     }
-    .big-spark:hover{ transform: translateY(-6px) rotate(-2deg); box-shadow:0 26px 66px rgba(2,6,23,0.6); }
 
-    /* ---------- Contact form (mailto based) ---------- */
-    .form-row{ display:flex; gap:10px; margin-top:12px; }
-    .field{ flex:1; display:flex; flex-direction:column; gap:6px; }
-    input[type="text"], input[type="email"], textarea {
-      background: transparent;
-      color: var(--text);
-      border:1px solid rgba(255,255,255,0.03);
-      padding:10px 12px;
-      border-radius:8px;
-      outline:none;
+    /* right column */
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
     }
-    textarea{ min-height:100px; resize:vertical; }
-    input::placeholder, textarea::placeholder { color: #8fa6c0; }
 
-    /* ---------- Footer ---------- */
-    footer{
-      margin-top:18px;
+    .box-small{
+      padding:16px;
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.006));
+      border:1px solid rgba(255,255,255,0.02);
       color:var(--muted);
-      font-size:13px;
+      font-size:14px;
+    }
+
+    footer{
+      margin-top:22px;
       display:flex;
       justify-content:space-between;
-      gap:12px;
       align-items:center;
+      gap:12px;
+      color:var(--muted);
+      font-size:13px;
     }
 
-    /* ---------- Toast ---------- */
-    .toast {
-      position:fixed;
-      left:50%;
-      bottom:36px;
-      transform:translateX(-50%) translateY(10px);
-      background: var(--toast-bg);
-      color: var(--text);
-      padding:10px 16px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.03);
-      z-index:9999;
-      font-weight:600;
-      opacity:0;
-      transition: opacity .18s ease, transform .22s cubic-bezier(.2,.9,.2,1);
+    .spark-grid{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
     }
 
-    /* ----- subtle animation (reduced-motion respected) ----- */
-    @keyframes glow { 0% { box-shadow:0 6px 18px rgba(255,210,77,0.05); transform: translateY(0) } 50% { box-shadow:0 24px 48px rgba(255,210,77,0.08); transform: translateY(-4px) } 100% { box-shadow:0 6px 18px rgba(255,210,77,0.05); transform: translateY(0) } }
-    .big-spark.animate { animation: glow 4.5s ease-in-out infinite; }
-    @media (prefers-reduced-motion: reduce){
-      .big-spark.animate, .btn { animation: none !important; transition: none !important; transform:none !important; }
+    .spark{
+      width:10px;height:10px;border-radius:50%;
+      background:rgba(255,255,255,0.06);
+      box-shadow: 0 3px 12px rgba(2,6,23,0.6);
+      transform-origin:center;
+      animation: float 6s ease-in-out infinite;
+      opacity:0.9;
+    }
+
+    .spark:nth-child(2){animation-duration:5.2s; transform:translateY(2px) rotate(10deg)}
+    .spark:nth-child(3){animation-duration:4.6s; animation-delay:.3s}
+    .spark:nth-child(4){animation-duration:6.4s; animation-delay:.6s}
+    .spark:nth-child(5){animation-duration:5.8s; animation-delay:.9s}
+
+    @keyframes float {
+      0%{transform:translateY(0) scale(1)}
+      50%{transform:translateY(-8px) scale(1.15)}
+      100%{transform:translateY(0) scale(1)}
     }
 
     /* small responsive */
-    @media (max-width:980px){
-      .big-spark { margin:12px 0 0 0; }
+    @media (max-width:880px){
+      main{grid-template-columns:1fr; padding-bottom:6px}
+      .side{order:2}
     }
 
+    /* tiny footer monospace note */
+    .mononote{font-family:var(--mono); font-size:12px; color:var(--muted)}
+    .center{display:flex;align-items:center;justify-content:center}
+    /* little meta credit */
+    .credit{font-size:12px;color:var(--muted)}
+    .link{color:var(--accent); text-decoration:none}
+    .link:hover{text-decoration:underline}
   </style>
 </head>
 <body>
-  <main class="stage" role="main" id="stage">
-    <!-- Left (main) -->
-    <section class="panel" aria-labelledby="title">
-      <div class="hero">
-        <div class="hero-left">
-          <div class="logo" aria-hidden="true">
-            <!-- simple inline svg logo -->
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="url(#g)"/>
-              <defs>
-                <linearGradient id="g" x1="0" x2="1">
-                  <stop offset="0" stop-color="#ffd24d"/>
-                  <stop offset="1" stop-color="#7be6d1"/>
-                </linearGradient>
-              </defs>
-              <path d="M12 7a5 5 0 0 0-1 9.9V19h2v-2.1A5 5 0 0 0 12 7z" fill="#051523"/>
-            </svg>
-          </div>
-
-          <div class="brand">
-            <h1 id="title" class="site-title">IdeaSpark.in</h1>
-            <div class="site-sub">A gentle, minimal place on the web — currently uncommitted.</div>
-          </div>
+  <div class="wrap" role="main" aria-labelledby="site-title">
+    <header>
+      <a class="brand" href="/" aria-label="IdeaSpark home">
+        <div class="logo" aria-hidden="true">
+          <!-- simple spark icon -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2l1.6 4.8L18 8l-4 2 1.2 4.8L12 12l-3.2 2.8L10 10 6 8l4.4-1.2L12 2z" fill="white" opacity="0.95"/>
+          </svg>
         </div>
-
         <div>
-          <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle color theme">
-            <span id="themeIcon" class="theme-icon" aria-hidden="true">🌙</span>
-            <span class="muted" id="themeLabel">Dark</span>
-          </button>
+          <h1 id="site-title">IdeaSpark.in</h1>
+          <div class="tag">A site for nothing — and maybe a little wonder</div>
         </div>
-      </div>
+      </a>
+    </header>
 
-      <p class="intro">
-        Sometimes the best ideas begin in quiet. IdeaSpark.in is a tidy pause: no products, no ads, just a small
-        visual breath of web space. If inspiration strikes, keep it. If not — that's fine too.
-      </p>
+    <main>
+      <section class="card" aria-labelledby="hero-heading">
+        <h2 id="hero-heading" class="hero-title">A place with absolutely no purpose.</h2>
+        <p class="hero-sub">A tiny island on the internet. No products. No sign-ups. No agenda. Just a calm little page you can visit when you feel like doing nothing.</p>
 
-      <div class="row" aria-hidden="false">
-        <div class="pill">No sign-ups</div>
-        <div class="pill">No trackers</div>
-        <div class="pill">Open to surprises</div>
-      </div>
-
-      <div class="glass" aria-hidden="false">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
-          <div>
-            <div style="font-weight:800;font-size:16px">What's happening</div>
-            <div class="muted" style="margin-top:6px">Right now: undecided. That's intentionally okay.</div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-            <div class="accent" title="accent dot" aria-hidden="true" style="width:10px;height:10px;border-radius:3px;background:var(--accent);"></div>
-            <small class="muted">v1 • static</small>
-          </div>
+        <div class="spark-grid" aria-hidden="true">
+          <div class="spark" style="width:12px;height:12px"></div>
+          <div class="spark" style="width:8px;height:8px"></div>
+          <div class="spark" style="width:10px;height:10px"></div>
+          <div class="spark" style="width:9px;height:9px"></div>
+          <div class="spark" style="width:11px;height:11px"></div>
         </div>
 
-        <div style="margin-top:16px; display:flex;gap:12px; align-items:center; flex-wrap:wrap;">
-          <button id="sparkBtn" class="btn" title="Click for a tiny playful action">Tap the spark ✨</button>
-          <a class="btn btn-ghost" href="#contact" title="jump to contact">Contact (mailto)</a>
+        <div style="margin-top:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <button class="mutebutton" id="doNothingBtn" aria-pressed="false" title="Toggle small surprise">I came to do nothing</button>
+
+          <!-- playful small action -->
+          <button class="mutebutton" id="sparkleBtn" title="Add a tiny sparkle">Add a sparkle</button>
         </div>
-      </div>
 
-      <footer>
-        <div>© IdeaSpark.in</div>
-        <div class="muted">Made to be a calm web presence.</div>
-      </footer>
-    </section>
-
-    <!-- Right (sidebar) -->
-    <aside class="panel card-compact" aria-label="Sidebar">
-      <div class="mini">
-        <div class="small-title">Quick status</div>
-        <div class="muted" style="margin-top:8px">Decision for today: <strong style="color:var(--text)">Undecided</strong></div>
-        <div style="margin-top:12px" class="muted">Last updated: when you loaded this page</div>
-      </div>
-
-      <div class="mini" id="contact">
-        <div class="small-title">Send a quick note</div>
-        <div class="muted" style="margin-top:8px">A lightweight mailto-based contact — opens your email client.</div>
-
-        <!-- mailto form: constructs subject/body via JS -->
-        <div style="margin-top:12px;">
-          <label class="muted" for="name">Your name</label>
-          <input id="name" type="text" placeholder="e.g. A Curious Stranger">
-
-          <label class="muted" for="email" style="margin-top:8px">Your email (optional)</label>
-          <input id="email" type="email" placeholder="you@example.com">
-
-          <label class="muted" for="message" style="margin-top:8px">Message</label>
-          <textarea id="message" placeholder="Share an idea, a hello, or nothing at all."></textarea>
-
-          <div style="display:flex;gap:10px;margin-top:12px;">
-            <button id="sendMail" class="btn">Open email client</button>
-            <button id="clearForm" class="btn btn-ghost">Clear</button>
-          </div>
+        <div id="messageArea" style="margin-top:18px;color:var(--muted);font-size:15px">
+          Tip: Try closing your eyes for 10 seconds. Or don't. Either works.
         </div>
-      </div>
 
-      <div class="mini" aria-hidden="false" style="text-align:center;">
-        <div class="small-title">Why minimal?</div>
-        <div class="muted" style="margin-top:8px">A simpler page can be a nicer blank canvas for your attention.</div>
-      </div>
-    </aside>
-  </main>
+        <footer>
+          <div class="mononote">ideaspark.in · simply here</div>
+          <div class="credit">© IdeaSpark — proudly doing nothing since 2025</div>
+        </footer>
+      </section>
 
-  <!-- toast holder (created by script) -->
-  <div id="toastRoot" aria-hidden="true"></div>
+      <aside class="side" aria-label="sidebar">
+        <div class="box-small">
+          <strong style="display:block;margin-bottom:8px">About</strong>
+          IdeaSpark is a small digital pause. Built with the explicit goal of offering a minuscule space that resists attention economy logic. Come. Breathe. Leave.
+        </div>
 
+        <div class="box-small">
+          <strong style="display:block;margin-bottom:8px">What you can do</strong>
+          <ul style="padding-left:18px;margin:0;color:var(--muted);line-height:1.6">
+            <li>Do nothing (recommended)</li>
+            <li>Think of an idea and forget it</li>
+            <li>Open a new tab and stare at a blank page</li>
+          </ul>
+        </div>
+
+        <div class="box-small">
+          <strong style="display:block;margin-bottom:8px">Tiny meta</strong>
+          Built with HTML, CSS, and a little whimsy. No trackers. No external fonts. No cookies needed.
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Tiny JS to keep it playful and tiny -->
   <script>
-    // Respect reduced motion
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    (function(){
+      const doBtn = document.getElementById('doNothingBtn');
+      const sparkleBtn = document.getElementById('sparkleBtn');
+      const msg = document.getElementById('messageArea');
+      let doing = false;
 
-    /* -------------------------
-       Theme toggle logic
-       - Uses data-theme attribute on :root
-       - values: "dark" (default) or "light"
-       - persists in localStorage key 'ideaspark_theme'
-       ------------------------- */
-    (function themeSetup(){
-      const root = document.documentElement;
-      const toggle = document.getElementById('themeToggle');
-      const icon = document.getElementById('themeIcon');
-      const label = document.getElementById('themeLabel');
-      const KEY = 'ideaspark_theme';
-
-      function applyTheme(theme){
-        if (theme === 'light') root.setAttribute('data-theme','light');
-        else root.removeAttribute('data-theme');
-        // update UI
-        const isLight = (theme === 'light');
-        icon.textContent = isLight ? '☀️' : '🌙';
-        label.textContent = isLight ? 'Light' : 'Dark';
-        toggle.setAttribute('aria-pressed', String(isLight));
-      }
-
-      // Determine initial theme:
-      // 1) localStorage
-      // 2) system preference
-      // 3) default to dark
-      const saved = localStorage.getItem(KEY);
-      if (saved) applyTheme(saved);
-      else {
-        const sys = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-        applyTheme(sys ? 'light' : 'dark');
-      }
-
-      // Click handler toggles and persists
-      toggle.addEventListener('click', ()=>{
-        const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-        const next = current === 'light' ? 'dark' : 'light';
-        applyTheme(next);
-        try { localStorage.setItem(KEY, next); } catch(e){}
-        showToast(next === 'light' ? 'Switched to light theme' : 'Switched to dark theme');
+      doBtn.addEventListener('click', () => {
+        doing = !doing;
+        doBtn.setAttribute('aria-pressed', String(doing));
+        if (doing) {
+          msg.textContent = "You're doing nothing. Congratulations. — A tiny bell rings in the background (inside your head).";
+          doBtn.textContent = "I'm proudly doing nothing ✅";
+          // subtle visual feedback
+          document.documentElement.style.setProperty('--accent', '#f472b6');
+        } else {
+          msg.textContent = "Tip: Try closing your eyes for 10 seconds. Or don't. Either works.";
+          doBtn.textContent = "I came to do nothing";
+          document.documentElement.style.setProperty('--accent', '#7dd3fc');
+        }
       });
 
-      // also listen for system preference changes (only if user hasn't chosen)
-      window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', (e)=>{
-        const saved = localStorage.getItem(KEY);
-        if (saved) return; // user preference wins
-        applyTheme(e.matches ? 'light' : 'dark');
+      sparkleBtn.addEventListener('click', () => {
+        // create a transient sparkle at a random spot inside the wrap
+        const wrap = document.querySelector('.wrap');
+        const s = document.createElement('div');
+        s.style.position = 'absolute';
+        const rect = wrap.getBoundingClientRect();
+        const x = Math.random() * (rect.width - 40) + 20;
+        const y = Math.random() * (rect.height - 40) + 20;
+        s.style.left = x + 'px';
+        s.style.top = y + 'px';
+        s.style.width = s.style.height = '8px';
+        s.style.borderRadius = '50%';
+        s.style.background = 'radial-gradient(circle at 35% 35%, white, rgba(255,255,255,0.8) 10%, transparent 40%)';
+        s.style.boxShadow = '0 8px 20px rgba(125,211,252,0.25)';
+        s.style.opacity = '0';
+        s.style.transform = 'scale(.5)';
+        s.style.pointerEvents = 'none';
+        s.style.transition = 'opacity .55s ease, transform .55s cubic-bezier(.2,.9,.3,1)';
+        wrap.appendChild(s);
+        // play the sparkle
+        requestAnimationFrame(()=> {
+          s.style.opacity = '1';
+          s.style.transform = 'scale(1.6)';
+        });
+        setTimeout(()=> {
+          s.style.opacity = '0';
+          s.style.transform = 'scale(.4)';
+        }, 650);
+        setTimeout(()=> s.remove(), 1100);
       });
-    })();
 
-    /* -------------------------
-       Spark micro-interaction & toast
-    ------------------------- */
-    const sparkBtn = document.getElementById('sparkBtn');
-    sparkBtn.addEventListener('click', () => {
-      if (!prefersReduced) {
-        sparkBtn.classList.add('anim');
-        setTimeout(()=>sparkBtn.classList.remove('anim'), 900);
-      }
-      showToast("You pressed the spark. No obligations. ✨");
-    });
-
-    /* Toast utility */
-    function showToast(text, timeout = 2000){
-      const root = document.getElementById('toastRoot');
-      const t = document.createElement('div');
-      t.className = 'toast';
-      t.setAttribute('role','status');
-      t.textContent = text;
-      root.appendChild(t);
-      // small show
-      requestAnimationFrame(()=>{ t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(0)'; });
-      setTimeout(()=>{ t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(10px)'; setTimeout(()=>t.remove(),240); }, timeout);
-    }
-
-    /* -------------------------
-       Contact form (mailto)
-    ------------------------- */
-    document.getElementById('clearForm').addEventListener('click', (e)=>{
-      e.preventDefault();
-      document.getElementById('name').value = '';
-      document.getElementById('email').value = '';
-      document.getElementById('message').value = '';
-      showToast('Cleared.');
-    });
-
-    document.getElementById('sendMail').addEventListener('click', (e)=>{
-      e.preventDefault();
-      const name = encodeURIComponent(document.getElementById('name').value || 'Anonymous');
-      const email = document.getElementById('email').value || '';
-      const message = document.getElementById('message').value || '';
-      const subject = encodeURIComponent(`IdeaSpark message from ${decodeURIComponent(name)}`);
-      let body = message;
-      if (email) body += `\n\nReply to: ${email}`;
-      const mailto = `mailto:hello@ideaspark.in?subject=${subject}&body=${encodeURIComponent(body)}`;
-      // open mail client
-      window.location.href = mailto;
-    });
-
-    /* Accessibility: announce once */
-    (function announceOnce(){
-      if (sessionStorage.getItem('ideaspark_announced')) return;
-      const sr = document.createElement('div');
-      sr.setAttribute('aria-live','polite');
-      sr.style.position='absolute'; sr.style.left='-9999px';
-      sr.textContent = 'IdeaSpark dot I N. A calm, minimal web page.';
-      document.body.appendChild(sr);
-      sessionStorage.setItem('ideaspark_announced','1');
+      // Accessibility: allow pressing 'd' to toggle do-nothing
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'd' || e.key === 'D') {
+          doBtn.click();
+        }
+        if (e.key === 's' || e.key === 'S') {
+          sparkleBtn.click();
+        }
+      });
     })();
   </script>
 </body>
