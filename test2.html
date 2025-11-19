@@ -6,7 +6,6 @@
   <title>IdeaSpark.in — Where ideas come to chill</title>
   <meta name="description" content="IdeaSpark.in — a tiny, proud website that currently does nothing. Minimal, quirky & animated." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ffcc33'/%3E%3Ctext x='50' y='58' font-size='40' text-anchor='middle' fill='%23112233' font-family='Segoe UI, Roboto, Arial'%3E%F0%9F%92%A1%3C/text%3E%3C/svg%3E">
-
   <style>
     :root{
       --bg1:#0b1020;
@@ -47,12 +46,15 @@
       border: 1px solid rgba(255,255,255,0.03);
     }
 
-    /* 🔥 NEW FOOTER (NO CONTENT, JUST BACKGROUND COLOR) */
+    /* Footer that visually matches the page background and is empty */
     .bottom-footer{
       width:100%;
       height:60px;
-      background: linear-gradient(180deg,var(--bg1), var(--bg2));
-      margin-top:40px;
+      /* use the same gradient as the page background for a perfect match */
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,204,51,0.06), transparent),
+                  linear-gradient(180deg,var(--bg1), var(--bg2));
+      margin-top:24px;
+      /* nothing visible: no borders, no content */
     }
 
     header{
@@ -158,6 +160,7 @@
       cursor:pointer;
       user-select:none;
     }
+    .spark:active{ transform: translateY(3px) scale(0.98); }
 
     .particle{
       position:absolute;
@@ -192,6 +195,16 @@
       text-decoration:none;
       font-weight:600;
       box-shadow: 0 6px 24px rgba(2,6,23,0.4);
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .cta:hover{ transform: translateY(-4px); box-shadow:0 18px 48px rgba(2,6,23,0.5); }
+
+    .email{
+      display:inline-block;
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:700;
+      margin-top:6px;
     }
 
     footer{
@@ -204,10 +217,46 @@
       font-size:13px;
     }
 
+    .foot-thing {
+      display:inline-grid;
+      place-items:center;
+      width:36px;height:36px;border-radius:10px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.02);
+      font-weight:700;
+    }
+
+    .confetti {
+      position:fixed;
+      pointer-events:none;
+      inset:0;
+      overflow:hidden;
+      z-index:1200;
+    }
+    .confetti-piece{
+      position:absolute;
+      width:10px;height:14px;
+      opacity:0.95;
+      transform-origin:center;
+      will-change: transform;
+      backface-visibility:hidden;
+      border-radius:2px;
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .wobble, .spark, .particle, .cta, .typewriter { animation: none !important; transition: none !important; }
+    }
+
+    /* ======================================================
+       🔥 MOBILE FIXES – Visible content on all screen sizes
+       ====================================================== */
     @media (max-width: 880px) {
       body {
+        align-items: flex-start;
+        justify-content: flex-start;
         padding: 18px 12px;
       }
+
       .wrap {
         min-height: auto;
         max-height: calc(100vh - 36px);
@@ -215,25 +264,287 @@
         padding: 20px;
         border-radius: 14px;
       }
+
+      .spark-area { min-height: 180px; }
+      .typewriter { min-height: 28px; }
+
+      header {
+        position: sticky;
+        top: 12px;
+        background: transparent;
+        z-index: 10;
+      }
     }
+
+    .wrap { overflow: visible; }
   </style>
 </head>
 
 <body>
+  <div class="wrap" role="main" aria-labelledby="main-title">
+    <header>
+      <div class="logo" aria-hidden="true">💡</div>
+      <div>
+        <h1 id="main-title">
+          IdeaSpark.in
+          <span class="wobble" aria-hidden="true">— proudly does nothing</span>
+        </h1>
+        <p class="lead">A minimal, slightly smug corner of the internet. Sit down. Breathe. Do nothing (or something chaotic).</p>
+      </div>
+    </header>
 
-  <div class="wrap" role="main">
-    <!-- your full existing content stays unchanged -->
-    <!-- (I did NOT remove or alter any of your main sections) -->
+    <div class="grid" aria-hidden="false">
+      <section class="card">
+        <div class="who">Who we are <span style="opacity:.6;margin-left:8px;">•</span> <strong style="margin-left:6px;">Nothing special</strong></div>
 
-    <!-- FULL CONTENT OMITTED HERE TO SAVE SPACE — YOU KEEP YOUR SAME FULL CONTENT -->
+        <div class="spark-area" aria-hidden="false" aria-label="Clickable spark that triggers playful confetti">
+          <div id="spark" class="spark" role="button" tabindex="0" aria-pressed="false" title="Click me — I promise nothing">
+            ✨
+          </div>
+        </div>
 
+        <div class="typewriter" id="typewriter" aria-live="polite"></div>
+
+        <p class="muted" style="margin-top:16px;">
+          IdeaSpark exists to prove an important internet truth: you don't need a product, pitch deck, or roadmap to look delightfully mysterious.
+          We might build a blog someday. Or not. Either way, this page will remain charmingly undecided.
+        </p>
+
+        <footer>
+          <div class="foot-left">
+            <div class="foot-thing" aria-hidden="true">🤫</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:600">Maybe coming soon</div>
+            <div style="color:var(--muted);font-size:12px">or maybe never</div>
+          </div>
+        </footer>
+      </section>
+
+      <aside class="right">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-weight:700">Why IdeaSpark?</div>
+              <div class="muted" style="margin-top:6px;">A visual pause button in web form.</div>
+            </div>
+            <div style="font-size:28px">🛋️</div>
+          </div>
+
+          <ul style="margin:14px 0 0 18px;color:var(--muted);line-height:1.7">
+            <li>Zero commitments</li>
+            <li>100% chill vibes</li>
+            <li>Free to stare at</li>
+          </ul>
+
+          <a class="cta" id="btn-spark" href="#spark" role="button">
+            Tap the spark ✨
+          </a>
+
+          <div style="margin-top:10px;">
+            <a class="email" href="mailto:hello@ideaspark.in">hello@ideaspark.in</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="font-weight:700">Tiny status board</div>
+          <div style="margin-top:8px;color:var(--muted);">Today's decision: <strong>Undecided</strong></div>
+          <div style="margin-top:12px;color:var(--muted);font-size:13px">Last updated: the moment you loaded this page.</div>
+
+          <div style="margin-top:12px;display:flex;gap:10px;">
+            <button class="cta" id="btn-rename" style="background:transparent;border:1px dashed rgba(255,255,255,0.04);">Rename idea</button>
+            <button class="cta" id="btn-reset" style="background:transparent;border:1px dashed rgba(255,255,255,0.04);">Reset</button>
+          </div>
+        </div>
+      </aside>
+    </div>
   </div>
 
-  <!-- 🔥 NEW FOOTER THAT MATCHES PAGE BACKGROUND -->
-  <div class="bottom-footer"></div>
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
 
-  <!-- Your JavaScript stays intact -->
-  <!-- (I did not modify any functionality) -->
+  <!-- Bottom footer: empty and visually matching the page background -->
+  <div class="bottom-footer" aria-hidden="true"></div>
 
+  <script>
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const lines = [
+      "This page is practicing purposeful idleness.",
+      "Ideas may spark. Or they may nap.",
+      "If you have a brilliant idea — send it into the void.",
+      "Click the spark. Be delighted. Or mildly confused."
+    ];
+
+    (function typewriter() {
+      const el = document.getElementById('typewriter');
+      let lineIndex = 0, charIndex = 0;
+      const typeSpeed = 40;
+      const pause = 1200;
+
+      function step() {
+        if (reduceMotion) { el.textContent = lines.join(' • '); return; }
+        const current = lines[lineIndex];
+        el.textContent = current.slice(0, charIndex);
+        charIndex++;
+        if (charIndex <= current.length) {
+          setTimeout(step, typeSpeed + Math.random()*40);
+        } else {
+          setTimeout(() => {
+            const backspace = setInterval(() => {
+              charIndex--;
+              el.textContent = current.slice(0, charIndex);
+              if (charIndex <= 0) {
+                clearInterval(backspace);
+                lineIndex = (lineIndex + 1) % lines.length;
+                setTimeout(step, 300);
+              }
+            }, 22 + Math.random()*20);
+          }, pause);
+        }
+      }
+      step();
+    })();
+
+    (function createParticles(){
+      if (reduceMotion) return;
+      const area = document.querySelector('.spark-area');
+      for (let i=0;i<8;i++){
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const left = 20 + Math.random()*60;
+        const top = 20 + Math.random()*60;
+        p.style.left = left + '%';
+        p.style.top = top + '%';
+        p.style.width = (6 + Math.random()*10) + 'px';
+        p.style.height = (6 + Math.random()*10) + 'px';
+        p.style.opacity = 0.6 + Math.random()*0.4;
+        area.appendChild(p);
+        floatElement(p, {x: (Math.random()*40-20), y:(Math.random()*40-20), dur: 3000+Math.random()*4000});
+      }
+    })();
+
+    function floatElement(el, {x=0,y=0,dur=3000}){
+      if (reduceMotion) return;
+      let start = null;
+      const sx = parseFloat(el.style.left);
+      const sy = parseFloat(el.style.top);
+      function step(ts){
+        if (!start) start = ts;
+        const t = (ts-start)/dur;
+        const ease = Math.sin(t*Math.PI*2)/2 + 0.5;
+        const nx = sx + x*ease;
+        const ny = sy + y*ease;
+        el.style.left = nx + '%';
+        el.style.top = ny + '%';
+        if (t < 1) requestAnimationFrame(step);
+        else {
+          floatElement(el, {x: -x, y:-y, dur:dur + (Math.random()*800-400)});
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    function launchConfetti(x = window.innerWidth/2, y = window.innerHeight/2, count = 30){
+      if (reduceMotion) return;
+      const layer = document.getElementById('confetti');
+      const colors = ['#ffcc33','#ffd966','#ff8c66','#66ffd9','#66b3ff'];
+      for (let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = x + (Math.random()*120-60) + 'px';
+        el.style.top = y + (Math.random()*20-10) + 'px';
+        el.style.width = (6 + Math.random()*12) + 'px';
+        el.style.height = (8 + Math.random()*12) + 'px';
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+        layer.appendChild(el);
+        animateConfettiPiece(el);
+        setTimeout(()=>{ try{layer.removeChild(el)}catch(e){} }, 2500 + Math.random()*1200);
+      }
+    }
+
+    function animateConfettiPiece(el){
+      const startX = parseFloat(el.style.left);
+      const startY = parseFloat(el.style.top);
+      const vx = (Math.random()*10 - 5);
+      const vy = (8 + Math.random()*10);
+      const rotSpeed = (Math.random()*720 - 360);
+      const start = performance.now();
+      function frame(now){
+        const t = (now - start)/1000;
+        el.style.left = (startX + vx * t * 25) + 'px';
+        el.style.top = (startY + vy * t) + 'px';
+        el.style.transform = 'rotate(' + (rotSpeed * t) + 'deg)';
+        el.style.opacity = Math.max(0, 1 - t/2.6);
+        if (t < 3) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    (function sparkBehaviour(){
+      const spark = document.getElementById('spark');
+      const btn = document.getElementById('btn-spark');
+      function trigger(e){
+        const rect = spark.getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        spark.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.18)' },
+          { transform: 'scale(0.98)' },
+          { transform: 'scale(1)' }
+        ], { duration: 320, easing: 'cubic-bezier(.2,.9,.2,1)'});
+        for (let i=0;i<12;i++){
+          const p = document.createElement('div');
+          p.className = 'confetti-piece';
+          p.style.left = (cx + (Math.random()*120-60)) + 'px';
+          p.style.top = (cy + (Math.random()*90-45)) + 'px';
+          p.style.width = (6 + Math.random()*12) + 'px';
+          p.style.height = (8 + Math.random()*12) + 'px';
+          p.style.background = ['#ffcc33','#ffd966','#66ffd9'][Math.floor(Math.random()*3)];
+          p.style.opacity = 0.95;
+          document.getElementById('confetti').appendChild(p);
+          animateConfettiPiece(p);
+          setTimeout(()=>{ try{p.remove()}catch(e){} }, 1600 + Math.random()*600);
+        }
+        launchConfetti(cx, cy, 30);
+        const pressed = spark.getAttribute('aria-pressed') === 'true';
+        spark.setAttribute('aria-pressed', String(!pressed));
+      }
+      spark.addEventListener('click', trigger);
+      spark.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); trigger(); }
+      });
+      btn.addEventListener('click', (e) => { e.preventDefault(); spark.focus(); spark.click(); });
+    })();
+
+    (function renameFlow(){
+      const btn = document.getElementById('btn-rename');
+      btn.addEventListener('click', ()=>{
+        const newName = prompt('Give your idea a name (or leave blank to cancel):', 'My Brilliant Nothing');
+        if (newName){
+          document.title = newName + ' — IdeaSpark.in';
+          alert('Nice name. The internet is now marginally more dignified.');
+        }
+      });
+      document.getElementById('btn-reset').addEventListener('click', ()=>{
+        document.title = 'IdeaSpark.in — Where ideas come to chill';
+        alert('Reset. The nothing returns. Peace restored.');
+      });
+    })();
+
+    (function greet(){
+      const greeted = sessionStorage.getItem('ideaspark_greeted');
+      if (!greeted){
+        const live = document.createElement('div');
+        live.setAttribute('aria-live','polite');
+        live.style.position='absolute';
+        live.style.left='-9999px';
+        live.textContent = 'Welcome to IdeaSpark dot I N. This site is practicing mild, intentional idleness.';
+        document.body.appendChild(live);
+        sessionStorage.setItem('ideaspark_greeted','1');
+      }
+    })();
+  </script>
 </body>
 </html>
