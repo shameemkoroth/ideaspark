@@ -2,31 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- CRITICAL FIX: Ensure the viewport meta tag is correct and present. It was already correct, but this confirms it. -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>IdeaSpark — a place for nothing</title>
   <meta name="description" content="IdeaSpark.in — a tiny digital island that exists for no reason at all." />
   <meta name="theme-color" content="#0f172a" />
   <link rel="icon" href="files/ideaspark-logo.svg" type="image/svg+xml" />
 
-  <!-- Minimal, modern styling (mobile-optimized) -->
   <style>
     :root{
       --bg:#0f172a;
-      --card:#0b1220;
       --muted:#9aa4b2;
       --accent:#7dd3fc;
       --glass: rgba(255,255,255,0.02);
       --radius:14px;
       --maxw:980px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
       --pad:20px;
-      --touch:48px; /* recommended min touch size */
+      --touch:48px;
       --base-font:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
     }
 
-    /* fluid typography */
     html { font-size: var(--base-font); -webkit-text-size-adjust: 100%; }
     @media (min-width:900px){ html { font-size: 17px; } }
     @media (min-width:1400px){ html { font-size: 18px; } }
@@ -43,10 +38,9 @@
       color:#e6eef8;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      /* Removed fixed padding to let the wrap element handle spacing on small screens */
-      padding:0; 
+      padding:32px 16px;
       display:flex;
-      align-items:center;
+      align-items:center;              /* centered on larger screens */
       justify-content:center;
       min-height:100vh;
       -webkit-tap-highlight-color: transparent;
@@ -63,8 +57,6 @@
       position:relative;
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.03);
-      /* Added margin for desktop to prevent it from touching the screen edges */
-      margin: 32px 16px; 
     }
 
     header{
@@ -74,41 +66,18 @@
       margin-bottom:16px;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:inherit;
-    }
+    .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
 
     .logo{
-      width:56px;
-      height:56px;
-      border-radius:10px;
+      width:56px; height:56px; border-radius:10px;
       background: linear-gradient(135deg,var(--accent), #6366f1 70%);
-      display:grid;
-      place-items:center;
-      box-shadow: 0 6px 18px rgba(125,211,252,0.07);
-      flex:0 0 56px;
-      overflow:hidden;
+      display:grid; place-items:center; box-shadow: 0 6px 18px rgba(125,211,252,0.07);
+      flex:0 0 56px; overflow:hidden;
     }
+    .logo img.logo-img{ width:44px; height:44px; display:block; object-fit:contain; }
 
-    /* use the provided SVG file */
-    .logo img.logo-img{
-      width:44px;
-      height:44px;
-      display:block;
-      object-fit:contain;
-    }
-
-    h1{
-      font-size:1.15rem;
-      margin:0;
-      letter-spacing:0.2px;
-      line-height:1.1;
-    }
-    .tag{font-size:0.85rem;color:var(--muted);margin-top:4px}
+    h1{ font-size:1.15rem; margin:0; letter-spacing:0.2px; line-height:1.1; }
+    .tag{ font-size:0.85rem; color:var(--muted); margin-top:4px }
 
     main{
       display:grid;
@@ -119,122 +88,54 @@
 
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
-      border-radius:14px;
-      padding:20px;
-      border:1px solid rgba(255,255,255,0.02);
+      border-radius:14px; padding:20px; border:1px solid rgba(255,255,255,0.02);
       box-shadow: 0 8px 24px rgba(2,6,23,0.45);
     }
 
-    .hero-title{
-      font-size:1.55rem;
-      margin:0 0 10px 0;
-      line-height:1.06;
-    }
-
-    .hero-sub{
-      color:var(--muted);
-      margin:0 0 14px 0;
-      font-size:1rem;
-    }
+    .hero-title{ font-size:1.55rem; margin:0 0 10px 0; line-height:1.06; }
+    .hero-sub{ color:var(--muted); margin:0 0 14px 0; font-size:1rem; }
 
     .mutebutton{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding:10px 14px;
-      min-height:var(--touch);
-      background:var(--glass);
-      border-radius:999px;
-      color:var(--accent);
-      font-weight:600;
-      font-size:0.95rem;
-      border:1px solid rgba(125,211,252,0.08);
-      cursor:pointer;
-      user-select:none;
-      transition: transform .12s ease, box-shadow .12s ease;
+      display:inline-flex; gap:10px; align-items:center; padding:10px 14px; min-height:var(--touch);
+      background:var(--glass); border-radius:999px; color:var(--accent); font-weight:600; font-size:0.95rem;
+      border:1px solid rgba(125,211,252,0.08); cursor:pointer; user-select:none; transition: transform .12s ease;
     }
     .mutebutton:active{ transform: scale(.99); }
-
     .mutebutton.large { padding:12px 18px; font-size:1rem; min-height:56px; }
 
-    .side{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
+    .side{ display:flex; flex-direction:column; gap:12px; }
 
-    .box-small{
-      padding:14px;
-      border-radius:12px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.006));
-      border:1px solid rgba(255,255,255,0.02);
-      color:var(--muted);
-      font-size:0.95rem;
-    }
+    .box-small{ padding:14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.006)); border:1px solid rgba(255,255,255,0.02); color:var(--muted); font-size:0.95rem; }
 
-    footer{
-      margin-top:18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      color:var(--muted);
-      font-size:0.9rem;
-    }
+    footer{ margin-top:18px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted); font-size:0.9rem; }
 
-    .spark-grid{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:16px;
-    }
+    .spark-grid{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .spark{ width:10px;height:10px;border-radius:50%; background:rgba(255,255,255,0.06); box-shadow: 0 3px 12px rgba(2,6,23,0.6); transform-origin:center; animation: float 6s ease-in-out infinite; opacity:0.9; }
+    @keyframes float { 0%{transform:translateY(0) scale(1)} 50%{transform:translateY(-8px) scale(1.12)} 100%{transform:translateY(0) scale(1)} }
 
-    .spark{
-      width:10px;height:10px;border-radius:50%;
-      background:rgba(255,255,255,0.06);
-      box-shadow: 0 3px 12px rgba(2,6,23,0.6);
-      transform-origin:center;
-      animation: float 6s ease-in-out infinite;
-      opacity:0.9;
-    }
-
-    @keyframes float {
-      0%{transform:translateY(0) scale(1)}
-      50%{transform:translateY(-8px) scale(1.12)}
-      100%{transform:translateY(0) scale(1)}
-    }
-
-    .mononote{font-family:var(--mono); font-size:0.88rem; color:var(--muted)}
-    .center{display:flex;align-items:center;justify-content:center}
-    .credit{font-size:0.9rem;color:var(--muted)}
-    .link{color:var(--accent); text-decoration:none}
+    .mononote{ font-family:var(--mono); font-size:0.88rem; color:var(--muted) }
+    .center{ display:flex; align-items:center; justify-content:center }
+    .credit{ font-size:0.9rem; color:var(--muted) }
+    .link{ color:var(--accent); text-decoration:none }
     .link:hover{text-decoration:underline}
 
-    /* ---- Mobile-first improvements ---- */
+    /* Mobile-specific: align content to top so header is visible immediately on load */
     @media (max-width:880px){
-      main{grid-template-columns:1fr; padding-bottom:4px}
-      .side{order:2}
-      .wrap{ 
-        padding:18px; 
-        border-radius:16px; 
-        /* FIX: Remove margin on mobile to allow full width usage */
-        margin: 0 16px; 
+      body{
+        align-items:flex-start;           /* <-- important: show header at top */
+        padding-top:26px;                 /* space from device status bar / notch */
+        padding-bottom:18px;
       }
+      main{ grid-template-columns:1fr; padding-bottom:4px }
+      .side{ order:2 }
+      .wrap{ padding:18px; border-radius:16px; }
       .logo{ width:56px; height:56px; }
       .logo img.logo-img{ width:40px; height:40px; }
     }
 
     @media (max-width:480px){
-      body{ 
-        /* FIX: Use padding on body for overall mobile spacing */
-        padding:18px 12px; 
-      }
-      .wrap{ 
-        padding:16px; 
-        border-radius:14px; 
-        /* FIX: Remove margin completely on smallest screens */
-        margin: 0; 
-      }
+      body{ padding:18px 12px; }
+      .wrap{ padding:16px; border-radius:14px; }
       header{ gap:10px; }
       .logo{ width:48px; height:48px; border-radius:10px; }
       .logo img.logo-img{ width:36px; height:36px; }
@@ -244,22 +145,18 @@
       .mutebutton{ padding:12px 16px; min-height:var(--touch); font-size:1rem; }
       .mutebutton.large{ min-height:56px; }
       .box-small{ padding:12px; font-size:0.95rem; }
-      .spark-grid{ display:none; } /* reduce visual noise on small screens */
+      .spark-grid{ display:none; } /* reduce visual noise */
       .card{ padding:16px; }
       footer{ flex-direction:column; gap:8px; align-items:flex-start; }
     }
 
-    /* prefer reduced motion for accessibility */
     @media (prefers-reduced-motion: reduce) {
       .spark { animation: none; }
       * { transition: none !important; animation: none !important; }
     }
 
-    /* ensure focus states are visible & large enough */
     :focus { outline: 3px solid rgba(125,211,252,0.12); outline-offset: 3px; border-radius:8px; }
     button:focus { box-shadow: 0 6px 20px rgba(125,211,252,0.08); }
-
-    /* small utility */
     .visually-hidden { position:absolute !important; height:1px; width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap; }
   </style>
 </head>
@@ -268,7 +165,6 @@
     <header>
       <a class="brand" href="/" aria-label="IdeaSpark home">
         <div class="logo" aria-hidden="true">
-          <!-- replaced inline SVG with your provided logo file -->
           <img src="files/ideaspark-logo.svg" alt="IdeaSpark logo" class="logo-img" loading="lazy" />
         </div>
         <div>
@@ -293,8 +189,6 @@
 
         <div style="margin-top:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
           <button class="mutebutton large" id="doNothingBtn" aria-pressed="false" title="Toggle small surprise">I came to do nothing</button>
-
-          <!-- playful small action -->
           <button class="mutebutton" id="sparkleBtn" title="Add a tiny sparkle">Add a sparkle</button>
         </div>
 
@@ -331,7 +225,6 @@
     </main>
   </div>
 
-  <!-- Tiny JS to keep it playful and tiny (keeps same behavior, improved for mobile & accessibility) -->
   <script>
     (function(){
       const doBtn = document.getElementById('doNothingBtn');
@@ -382,7 +275,6 @@
         setTimeout(()=> s.remove(), 900);
       });
 
-      // Accessibility: allow pressing 'd' to toggle do-nothing, 's' for spark
       window.addEventListener('keydown', (e) => {
         if (!e.metaKey && !e.ctrlKey && !e.altKey) {
           if (e.key === 'd' || e.key === 'D') doBtn.click();
