@@ -3,257 +3,534 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>IdeaSpark — spark wild ideas</title>
-  <meta name="description" content="IdeaSpark — a tiny engine to spark creative project ideas" />
-  <!-- Optional: Google font (will fall back to system fonts if blocked) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>IdeaSpark.in — Where ideas come to chill</title>
+  <meta name="description" content="IdeaSpark.in — a tiny, proud website that currently does nothing. Minimal, quirky & animated." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ffcc33'/%3E%3Ctext x='50' y='58' font-size='40' text-anchor='middle' fill='%23112233' font-family='Segoe UI, Roboto, Arial'%3E%F0%9F%92%A1%3C/text%3E%3C/svg%3E">
   <style>
-    /* Basic reset */
-    *{box-sizing:border-box;margin:0;padding:0}
+    /* ========== Reset & variables ========== */
+    :root{
+      --bg1:#0b1020;
+      --bg2:#0e1a2b;
+      --glass: rgba(255,255,255,0.06);
+      --accent: #ffcc33;
+      --muted: #b8c6d6;
+      --max-width: 1100px;
+    }
+    *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(180deg,#071126,#0f1724);
-      color:#e6eef6;
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,204,51,0.06), transparent),
+                  linear-gradient(180deg,var(--bg1), var(--bg2));
+      color: #eaf0ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:28px;
-      -webkit-font-smoothing:antialiased;
+      padding:40px 20px;
     }
 
-    .container{
+    /* Container */
+    .wrap{
       width:100%;
-      max-width:1100px;
-      background: rgba(255,255,255,0.02);
-      border-radius:14px;
-      padding:20px;
-      border:1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+      max-width:var(--max-width);
+      min-height:60vh;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:20px;
+      padding:40px;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      position:relative;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,0.03);
     }
 
-    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    header{
+      display:flex;
+      gap:20px;
+      align-items:center;
+    }
     .logo{
-      display:flex;gap:12px;align-items:center;
+      width:72px;
+      height:72px;
+      min-width:72px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg,var(--accent), #ffd966);
+      color:#081427;
+      font-weight:700;
+      font-size:28px;
+      box-shadow: 0 6px 18px rgba(255,204,51,0.14);
     }
-    .logo .icon{
-      width:52px;height:52px;border-radius:10px;
-      background:linear-gradient(135deg,#ffb86b,#ffd9a6);
-      color:#07202e;display:grid;place-items:center;font-weight:700;font-size:20px;
+
+    h1{
+      margin:0;
+      font-size: clamp(20px, 4vw, 36px);
+      letter-spacing:-0.02em;
+      line-height:1.05;
+      display:flex;
+      align-items:baseline;
+      gap:12px;
     }
-    h1{font-size:18px;margin-bottom:2px}
-    h2{font-size:12px;color:#ffd9a6;margin:0}
 
-    nav .btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:10px;color:#c7d6e6;font-weight:600;cursor:pointer}
-    nav .btn.primary{background:#ffd9a6;color:#07202e;border:none}
+    /* Wobble animation for "proudly does nothing" vibe */
+    .wobble {
+      display:inline-block;
+      transform-origin: 50% 50%;
+      animation: wobble 4s ease-in-out infinite;
+    }
+    @keyframes wobble{
+      0%{transform: rotate(-1.2deg)}
+      25%{transform: rotate(0.8deg) translateY(-2px)}
+      50%{transform: rotate(-0.6deg)}
+      75%{transform: rotate(0.9deg) translateY(1px)}
+      100%{transform: rotate(-1.2deg)}
+    }
 
-    .layout{display:grid;grid-template-columns:1fr 380px;gap:18px}
-    @media (max-width:920px){ .layout{grid-template-columns:1fr} nav{display:none} }
+    p.lead{
+      margin:12px 0 0 0;
+      color:var(--muted);
+      font-size: clamp(14px, 2.3vw, 18px);
+    }
 
-    /* Left */
-    .hero{padding:16px;border-radius:12px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
-    .hero h3{font-size:24px;margin-bottom:8px}
-    .hero p{color:#9aa4b2;margin-bottom:12px}
+    /* Main content grid */
+    .grid{
+      margin-top:28px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:24px;
+    }
+    @media (max-width:880px){ .grid{ grid-template-columns: 1fr; } }
 
-    .features{display:grid;gap:10px}
-    .feature{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
-    .feature .ficon{width:44px;height:44;border-radius:8px;display:grid;place-items:center;font-weight:700;color:#07202e;background:linear-gradient(135deg,#8be9fd,#66d1ff)}
+    /* Card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:14px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 6px 30px rgba(2,6,23,0.45);
+    }
 
-    /* Right - card */
-    .card{padding:16px;border-radius:12px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.03)}
-    .kicker{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-    .idea{min-height:100px;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);font-weight:600}
-    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px}
-    .tag{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.02);color:#c7d6e6;font-weight:600}
-    .controls{display:flex;gap:8px}
-    .controls button{padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
-    .controls .regen{background:transparent;color:#c7d6e6;border:1px solid rgba(255,255,255,0.03)}
-    .controls .copy{background:rgba(255,255,255,0.02);color:#c7d6e6}
-    .controls .share{background:#ffd9a6;color:#07202e}
+    .who{
+      font-size:16px;
+      color:var(--muted);
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
 
-    footer{margin-top:16px;display:flex;justify-content:space-between;color:#9aa4b2;font-size:13px;align-items:center}
+    /* Typewriter subtitle */
+    .typewriter{
+      margin-top:12px;
+      font-weight:600;
+      font-size:18px;
+      color:#fff;
+      min-height:24px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    }
+
+    /* Spark / floating bubble area */
+    .spark-area{
+      position:relative;
+      min-height:260px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .spark {
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.12) 10%, rgba(255,204,51,0.15) 30%, transparent 60%);
+      display:grid;
+      place-items:center;
+      color:#082032;
+      font-size:46px;
+      font-weight:800;
+      transform-origin:center;
+      box-shadow: 0 24px 60px rgba(255,204,51,0.06);
+      cursor:pointer;
+      user-select:none;
+    }
+    .spark:active{ transform: translateY(3px) scale(0.98); }
+
+    /* floating tiny sparks */
+    .particle{
+      position:absolute;
+      width:10px;height:10px;border-radius:4px;
+      background:var(--accent);
+      opacity:0.9;
+      filter: blur(.6px);
+      transform: translate3d(0,0,0);
+      pointer-events:none;
+    }
+
+    /* Right column */
+    .right{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .cta{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:10px;
+      background: linear-gradient(90deg, rgba(255,204,51,0.12), rgba(255,204,51,0.08));
+      color: #fff;
+      border: 1px solid rgba(255,204,51,0.12);
+      text-decoration:none;
+      font-weight:600;
+      box-shadow: 0 6px 24px rgba(2,6,23,0.4);
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .cta:hover{ transform: translateY(-4px); box-shadow:0 18px 48px rgba(2,6,23,0.5); }
+
+    .email{
+      display:inline-block;
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:700;
+      margin-top:6px;
+    }
+
+    footer{
+      margin-top:26px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* silly footer icon */
+    .foot-thing {
+      display:inline-grid;
+      place-items:center;
+      width:36px;height:36px;border-radius:10px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.02);
+      font-weight:700;
+    }
+
+    /* Confetti pieces (animated with JS by toggling .fall) */
+    .confetti {
+      position:fixed;
+      pointer-events:none;
+      inset:0;
+      overflow:hidden;
+      z-index:1200;
+    }
+    .confetti-piece{
+      position:absolute;
+      width:10px;height:14px;
+      opacity:0.95;
+      transform-origin:center;
+      will-change: transform;
+      backface-visibility:hidden;
+      border-radius:2px;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion:reduce){
+      .wobble, .spark, .particle, .cta, .typewriter { animation: none !important; transition: none !important; }
+    }
   </style>
 </head>
 <body>
-  <div class="container" role="main">
+  <div class="wrap" role="main" aria-labelledby="main-title">
     <header>
-      <div class="logo">
-        <div class="icon">IS</div>
-        <div>
-          <h1>IdeaSpark</h1>
-          <h2>spark wild ideas ✨</h2>
-        </div>
+      <div class="logo" aria-hidden="true">💡</div>
+      <div>
+        <h1 id="main-title">
+          IdeaSpark.in
+          <span class="wobble" aria-hidden="true">— proudly does nothing</span>
+        </h1>
+        <p class="lead">A minimal, slightly smug corner of the internet. Sit down. Breathe. Do nothing (or something chaotic).</p>
       </div>
-
-      <nav>
-        <button class="btn" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How</button>
-        <button class="btn" onclick="document.getElementById('ideas').scrollIntoView({behavior:'smooth'})">Generator</button>
-        <button class="btn primary" onclick="window.location='mailto:hello@ideaspark.in'">Contact</button>
-      </nav>
     </header>
 
-    <div class="layout">
-      <!-- left -->
-      <section class="hero" id="how">
-        <h3>Turn a tiny spark into a big idea</h3>
-        <p>IdeaSpark gives quick, actionable project prompts: perfect for hackathons, school projects, or a creative break.</p>
+    <div class="grid" aria-hidden="false">
+      <section class="card">
+        <div class="who">Who we are <span style="opacity:.6;margin-left:8px;">•</span> <strong style="margin-left:6px;">Nothing special</strong></div>
 
-        <div class="features" aria-hidden="false">
-          <div class="feature">
-            <div class="ficon">⚡</div>
-            <div>
-              <strong>Quick sparks</strong>
-              <div style="color:#9aa4b2;font-size:14px">One-click ideas you can start today.</div>
-            </div>
+        <div class="spark-area" aria-hidden="false" aria-label="Clickable spark that triggers playful confetti">
+          <div id="spark" class="spark" role="button" tabindex="0" aria-pressed="false" title="Click me — I promise nothing">
+            ✨
           </div>
-
-          <div class="feature">
-            <div class="ficon">🎯</div>
-            <div>
-              <strong>Focused categories</strong>
-              <div style="color:#9aa4b2;font-size:14px">Choose a mood: Tech, Green, Fun, School, & more.</div>
-            </div>
-          </div>
-
-          <div class="feature">
-            <div class="ficon">🚀</div>
-            <div>
-              <strong>Starter checklist</strong>
-              <div style="color:#9aa4b2;font-size:14px">Each idea includes 3 quick next steps.</div>
-            </div>
-          </div>
+          <!-- floating particles are injected via JS to feel alive -->
         </div>
+
+        <div class="typewriter" id="typewriter" aria-live="polite"></div>
+
+        <p class="muted" style="margin-top:16px;">
+          IdeaSpark exists to prove an important internet truth: you don't need a product, pitch deck, or roadmap to look delightfully mysterious.
+          We might build a blog someday. Or not. Either way, this page will remain charmingly undecided.
+        </p>
+
+        <footer>
+          <div class="foot-left">
+            <div class="foot-thing" aria-hidden="true">🤫</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:600">Maybe coming soon</div>
+            <div style="color:var(--muted);font-size:12px">or maybe never</div>
+          </div>
+        </footer>
       </section>
 
-      <!-- right -->
-      <aside class="card" id="ideas" aria-labelledby="generator-title">
-        <div class="kicker">
-          <div>
-            <small id="generator-title">Idea Generator</small>
-            <div style="font-size:12px;color:#9aa4b2">Pick a category and generate an idea</div>
+      <aside class="right">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-weight:700">Why IdeaSpark?</div>
+              <div class="muted" style="margin-top:6px;">A visual pause button in web form.</div>
+            </div>
+            <div style="font-size:28px">🛋️</div>
           </div>
 
-          <div style="display:flex;gap:8px;align-items:center">
-            <select id="category" aria-label="Category selector" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:#c7d6e6;font-weight:600">
-              <option value="random">🎲 Random</option>
-              <option value="tech">💻 Tech</option>
-              <option value="creative">🎨 Creative</option>
-              <option value="social">🤝 Social</option>
-              <option value="green">🌱 Green</option>
-              <option value="business">📈 Business</option>
-              <option value="fun">🎉 Fun</option>
-              <option value="school">🏫 School</option>
-            </select>
-            <button class="btn" onclick="generateIdea()">Generate</button>
-          </div>
-        </div>
+          <ul style="margin:14px 0 0 18px;color:var(--muted);line-height:1.7">
+            <li>Zero commitments</li>
+            <li>100% chill vibes</li>
+            <li>Free to stare at</li>
+          </ul>
 
-        <div class="idea" id="ideaText" aria-live="polite">Click <strong>Generate</strong> to spark an idea!</div>
+          <a class="cta" id="btn-spark" href="#spark" role="button">
+            Tap the spark ✨
+          </a>
 
-        <div class="meta">
-          <div class="tag" id="ideaCat">Category — Random</div>
-          <div class="controls">
-            <button class="regen" onclick="generateIdea()">↺</button>
-            <button class="copy" id="copyBtn" onclick="copyIdea()">Copy</button>
-            <button class="share" onclick="shareIdea()">Share</button>
+          <div style="margin-top:10px;">
+            <a class="email" href="mailto:hello@ideaspark.in">hello@ideaspark.in</a>
           </div>
         </div>
 
-        <div id="miniPlan" style="margin-top:12px;color:#9aa4b2;font-size:14px;line-height:1.35"></div>
+        <div class="card" aria-hidden="false">
+          <div style="font-weight:700">Tiny status board</div>
+          <div style="margin-top:8px;color:var(--muted);">Today's decision: <strong>Undecided</strong></div>
+          <div style="margin-top:12px;color:var(--muted);font-size:13px">Last updated: the moment you loaded this page.</div>
+
+          <div style="margin-top:12px;display:flex;gap:10px;">
+            <button class="cta" id="btn-rename" style="background:transparent;border:1px dashed rgba(255,255,255,0.04);">Rename idea</button>
+            <button class="cta" id="btn-reset" style="background:transparent;border:1px dashed rgba(255,255,255,0.04);">Reset</button>
+          </div>
+        </div>
       </aside>
     </div>
-
-    <footer>
-      <div>Made with 💡 — ideaspark.in</div>
-      <div><button class="btn" onclick="moreSteps()">More</button></div>
-    </footer>
   </div>
 
+  <!-- confetti layer -->
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+
   <script>
-    const IDEAS = {
-      tech: [
-        {title:"Tiny habit app that gamifies 1-minute tasks", plan:["Design 1-minute tasks","Track streaks + XP","Share short challenges"]},
-        {title:"Local marketplace for spare parts", plan:["Map common items","Allow photos & offers","Build messaging"]},
-      ],
-      creative: [
-        {title:"Postcard subscription with indie illustrators", plan:["Curate artists","Print monthly","Ship boxes"]},
-      ],
-      social: [
-        {title:"Skill-swap nights: people trade 1-hour lessons", plan:["Create event page","Match people","Host meetups"]},
-      ],
-      green: [
-        {title:"Compost co-op with pickup rota", plan:["Sign up homes","Schedule pickups","Convert to soil"]},
-      ],
-      business: [
-        {title:"Micro-subscription snack box for offices", plan:["Source local snacks","Offer sample boxes","Trial with offices"]},
-      ],
-      fun: [
-        {title:"Mystery dinner kits with themed clues", plan:["Design menu & clues","Box materials","Host events"]},
-      ],
-      school: [
-        {title:"Classroom podcast produced by students", plan:["Pick topic","Teach recording","Publish episodes"]},
-      ],
-      random: [
-        {title:"Pop-up story bench: strangers add to a public tale", plan:["Place notebook bench","Encourage writing","Publish stories"]},
-      ]
-    };
+    // ------------------------
+    // Tiny interactive JS
+    // ------------------------
 
-    function rnd(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    // Respect reduced motion
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function generateIdea(){
-      const catInput = document.getElementById('category').value;
-      const keys = Object.keys(IDEAS);
-      const chosenCat = catInput === 'random' ? rnd(keys) : catInput;
-      const idea = rnd(IDEAS[chosenCat]);
-      document.getElementById('ideaText').textContent = idea.title;
-      document.getElementById('ideaCat').textContent = "Category — " + capitalize(chosenCat);
-      showMiniPlan(idea.plan);
+    // Typewriter lines (playful)
+    const lines = [
+      "This page is practicing purposeful idleness.",
+      "Ideas may spark. Or they may nap.",
+      "If you have a brilliant idea — send it into the void.",
+      "Click the spark. Be delighted. Or mildly confused."
+    ];
+
+    // Typewriter implementation
+    (function typewriter() {
+      const el = document.getElementById('typewriter');
+      let lineIndex = 0, charIndex = 0;
+      const typeSpeed = 40;
+      const pause = 1200;
+
+      function step() {
+        if (reduceMotion) { el.textContent = lines.join(' • '); return; }
+        const current = lines[lineIndex];
+        el.textContent = current.slice(0, charIndex);
+        charIndex++;
+        if (charIndex <= current.length) {
+          setTimeout(step, typeSpeed + Math.random()*40);
+        } else {
+          setTimeout(() => {
+            // backspace effect
+            const backspace = setInterval(() => {
+              charIndex--;
+              el.textContent = current.slice(0, charIndex);
+              if (charIndex <= 0) {
+                clearInterval(backspace);
+                lineIndex = (lineIndex + 1) % lines.length;
+                setTimeout(step, 300);
+              }
+            }, 22 + Math.random()*20);
+          }, pause);
+        }
+      }
+      step();
+    })();
+
+    // Particle floaters: create a few tiny particles around the spark
+    (function createParticles(){
+      if (reduceMotion) return;
+      const area = document.querySelector('.spark-area');
+      for (let i=0;i<8;i++){
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const left = 20 + Math.random()*60; // percent
+        const top = 20 + Math.random()*60;
+        p.style.left = left + '%';
+        p.style.top = top + '%';
+        p.style.width = (6 + Math.random()*10) + 'px';
+        p.style.height = (6 + Math.random()*10) + 'px';
+        p.style.opacity = 0.6 + Math.random()*0.4;
+        area.appendChild(p);
+        // animate with subtle floating
+        floatElement(p, {x: (Math.random()*40-20), y:(Math.random()*40-20), dur: 3000+Math.random()*4000});
+      }
+    })();
+
+    // helper: float animation using requestAnimationFrame
+    function floatElement(el, {x=0,y=0,dur=3000}){
+      if (reduceMotion) return;
+      let start = null;
+      const sx = parseFloat(el.style.left);
+      const sy = parseFloat(el.style.top);
+      function step(ts){
+        if (!start) start = ts;
+        const t = (ts-start)/dur;
+        const ease = Math.sin(t*Math.PI*2)/2 + 0.5;
+        const nx = sx + x*ease;
+        const ny = sy + y*ease;
+        el.style.left = nx + '%';
+        el.style.top = ny + '%';
+        if (t < 1) requestAnimationFrame(step);
+        else {
+          // reverse
+          floatElement(el, {x: -x, y:-y, dur:dur + (Math.random()*800-400)});
+        }
+      }
+      requestAnimationFrame(step);
     }
 
-    function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
-
-    function copyIdea(){
-      const text = document.getElementById('ideaText').innerText + " — " + document.getElementById('ideaCat').innerText;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(()=> {
-          const b = document.getElementById('copyBtn');
-          b.textContent = 'Copied ✓';
-          setTimeout(()=> b.textContent = 'Copy',1500);
-        }).catch(()=> alert('Copy failed — try selecting and copying manually.'));
-      } else {
-        alert('Copy not supported in this browser. Select the text and copy manually.');
+    // Confetti generator (simple)
+    function launchConfetti(x = window.innerWidth/2, y = window.innerHeight/2, count = 30){
+      if (reduceMotion) return;
+      const layer = document.getElementById('confetti');
+      const colors = ['#ffcc33','#ffd966','#ff8c66','#66ffd9','#66b3ff'];
+      for (let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = x + (Math.random()*120-60) + 'px';
+        el.style.top = y + (Math.random()*20-10) + 'px';
+        el.style.width = (6 + Math.random()*12) + 'px';
+        el.style.height = (8 + Math.random()*12) + 'px';
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        el.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+        layer.appendChild(el);
+        animateConfettiPiece(el);
+        setTimeout(()=>{ try{layer.removeChild(el)}catch(e){} }, 2500 + Math.random()*1200);
       }
     }
 
-    function shareIdea(){
-      const idea = document.getElementById('ideaText').innerText;
-      const cat = document.getElementById('ideaCat').innerText;
-      const url = location.href;
-      if(navigator.share){
-        navigator.share({title:'Idea from IdeaSpark', text: idea + " — " + cat, url: url});
-      } else {
-        window.location = "mailto:?subject=" + encodeURIComponent("Idea: " + idea) + "&body=" + encodeURIComponent(idea + " — " + cat + "\n\nFrom IdeaSpark: " + url);
+    function animateConfettiPiece(el){
+      const startX = parseFloat(el.style.left);
+      const startY = parseFloat(el.style.top);
+      const vx = (Math.random()*10 - 5);
+      const vy = (8 + Math.random()*10);
+      const rotSpeed = (Math.random()*720 - 360); // deg per second
+      const start = performance.now();
+      function frame(now){
+        const t = (now - start)/1000;
+        el.style.left = (startX + vx * t * 25) + 'px';
+        el.style.top = (startY + vy * t) + 'px';
+        el.style.transform = 'rotate(' + (rotSpeed * t) + 'deg)';
+        el.style.opacity = Math.max(0, 1 - t/2.6);
+        if (t < 3) requestAnimationFrame(frame);
       }
+      requestAnimationFrame(frame);
     }
 
-    function showMiniPlan(plan){
-      const el = document.getElementById('miniPlan');
-      if(!plan){ el.innerHTML=''; return; }
-      el.innerHTML = '<strong>3 quick steps:</strong><ol style="margin:6px 0 0 18px;color:#9aa4b2">' +
-        '<li>' + plan[0] + '</li>' +
-        '<li>' + plan[1] + '</li>' +
-        '<li>' + plan[2] + '</li></ol>';
-    }
+    // Spark click behavior - toggles aria pressed state and launches confetti
+    (function sparkBehaviour(){
+      const spark = document.getElementById('spark');
+      const btn = document.getElementById('btn-spark');
+      function trigger(e){
+        const rect = spark.getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        spark.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.18)' },
+          { transform: 'scale(0.98)' },
+          { transform: 'scale(1)' }
+        ], { duration: 320, easing: 'cubic-bezier(.2,.9,.2,1)'});
+        // tiny particle pulse
+        for (let i=0;i<12;i++){
+          const p = document.createElement('div');
+          p.className = 'confetti-piece';
+          p.style.left = (cx + (Math.random()*120-60)) + 'px';
+          p.style.top = (cy + (Math.random()*90-45)) + 'px';
+          p.style.width = (6 + Math.random()*12) + 'px';
+          p.style.height = (8 + Math.random()*12) + 'px';
+          p.style.background = ['#ffcc33','#ffd966','#66ffd9'][Math.floor(Math.random()*3)];
+          p.style.opacity = 0.95;
+          document.getElementById('confetti').appendChild(p);
+          animateConfettiPiece(p);
+          setTimeout(()=>{ try{p.remove()}catch(e){} }, 1600 + Math.random()*600);
+        }
+        // larger confetti shower
+        launchConfetti(cx, cy, 30);
+        // toggle aria-pressed for a smidge of state
+        const pressed = spark.getAttribute('aria-pressed') === 'true';
+        spark.setAttribute('aria-pressed', String(!pressed));
+      }
+      spark.addEventListener('click', trigger);
+      spark.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); trigger(); }
+      });
+      btn.addEventListener('click', (e) => { e.preventDefault(); spark.focus(); spark.click(); });
+    })();
 
-    function moreSteps(){
-      const idea = document.getElementById('ideaText').innerText;
-      if(!idea || idea.includes('Generate')) { alert('Generate an idea first!'); return; }
-      const steps = ['Define the user & problem in one sentence','List minimal features (MVP)','Find 3 people to test in a week'];
-      document.getElementById('miniPlan').innerHTML = '<strong>Starter checklist:</strong><ol style="margin:6px 0 0 18px;color:#9aa4b2"><li>' +
-        steps[0] + '</li><li>' + steps[1] + '</li><li>' + steps[2] + '</li></ol>';
-    }
+    // Tiny rename flow: prompt (keeps it simple)
+    (function renameFlow(){
+      const btn = document.getElementById('btn-rename');
+      btn.addEventListener('click', ()=>{
+        const newName = prompt('Give your idea a name (or leave blank to cancel):', 'My Brilliant Nothing');
+        if (newName){
+          document.title = newName + ' — IdeaSpark.in';
+          alert('Nice name. The internet is now marginally more dignified.');
+        }
+      });
+      document.getElementById('btn-reset').addEventListener('click', ()=>{
+        document.title = 'IdeaSpark.in — Where ideas come to chill';
+        alert('Reset. The nothing returns. Peace restored.');
+      });
+    })();
 
-    window.addEventListener('DOMContentLoaded', ()=> setTimeout(generateIdea, 200));
+    // Accessibility: announce a one-time friendly greeting
+    (function greet(){
+      const greeted = sessionStorage.getItem('ideaspark_greeted');
+      if (!greeted){
+        const live = document.createElement('div');
+        live.setAttribute('aria-live','polite');
+        live.style.position='absolute';
+        live.style.left='-9999px';
+        live.textContent = 'Welcome to IdeaSpark dot I N. This site is practicing mild, intentional idleness.';
+        document.body.appendChild(live);
+        sessionStorage.setItem('ideaspark_greeted','1');
+      }
+    })();
+
   </script>
 </body>
 </html>
